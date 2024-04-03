@@ -28,6 +28,7 @@ public class Simulator extends Thread {
 	//TODO : add missing attribute(s)
 	private int width;
 	private int height;
+	private boolean enableLogs;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -44,6 +45,7 @@ public class Simulator extends Thread {
 		//might want to changes those values later
 		this.width=100;
 		this.height=100;
+		enableLogs = true;
 		
 		
 		//Default rule : Survive always, birth never
@@ -142,6 +144,13 @@ public class Simulator extends Thread {
 	public void togglePause() {
 		// TODO-COMPLETE : actually toggle the corresponding flag
 		pauseFlag = !pauseFlag;
+		if (enableLogs) {
+			if (pauseFlag) {
+				System.out.println("togglePause called, Simulation paused");
+			} else {
+				System.out.println("togglePause called, Simulation unpaused");
+			}
+		}
 	}
 	
 	/**
@@ -152,10 +161,14 @@ public class Simulator extends Thread {
 			int currentCellValue = getCell(x, y);
 			int newCellValue;
 			if (currentCellValue == 0) {
-				System.out.println("Cell :" + x + "," + y + " is now alive");
+				if (enableLogs) {
+					System.out.println("clickCell Called, cell :" + x + "," + y + " is now alive");
+				}
 				newCellValue = 1; // If the cell is dead, make it alive
 			} else {
-				System.out.println("Cell :" + x + "," + y + " is now dead");
+				if (enableLogs) {
+					System.out.println("clickCell Called, cell :" + x + "," + y + " is now dead");
+				}
 				newCellValue = 0; // If the cell is alive, make it dead
 			}
 
@@ -283,11 +296,21 @@ public class Simulator extends Thread {
 	public void setLoopDelay(int delay) {
 		//TODO-COMPLETE : complete method
 		loopDelay = delay;
+		if (enableLogs) {
+			System.out.println("Loop delay set to " + delay);
+		}
 	}
 	
 	public void toggleClickAction() {
 		//TODO-COMPLETE : complete method
 		clickActionFlag = !clickActionFlag;
+		if (enableLogs) {
+			if (clickActionFlag) {
+				System.out.println("toggleClickAction called, set clickActionFlag to true");
+			} else {
+				System.out.println("toggleClickAction called, set clickActionFlag to false");
+			}
+		}
 	}
 
 	/**
