@@ -140,7 +140,8 @@ public class Simulator extends Thread {
 	 * method called when clicking pause button
 	 */
 	public void togglePause() {
-		// TODO : actually toggle the corresponding flag
+		// TODO-COMPLETE : actually toggle the corresponding flag
+		pauseFlag = !pauseFlag;
 	}
 	
 	/**
