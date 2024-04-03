@@ -26,6 +26,8 @@ public class Simulator extends Thread {
 	private int loopDelay = 150;
 
 	//TODO : add missing attribute(s)
+	private int width;
+	private int height;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -38,8 +40,10 @@ public class Simulator extends Thread {
 		fieldBirthValues = new ArrayList<Integer>();
 		fieldSurviveValues = new ArrayList<Integer>();
 
-		//TODO : add missing attribute initialization
-		
+		//TODO-COMPLETE: add missing attribute initialization
+		//might want to changes those values later
+		this.width=100;
+		this.height=100;
 		
 		
 		//Default rule : Survive always, birth never
@@ -50,13 +54,13 @@ public class Simulator extends Thread {
 	}
 
 	public int getWidth() {
-		//TODO : replace with proper return
-		return 0;
+		//TODO-COMPLETE : replace with proper return
+		return this.width;
 	}
 
 	public int getHeight() {
-		//TODO : replace with proper return
-		return 0;
+		//TODO-COMPLETE : replace with proper return
+		return this.height;
 	}
 
 	//Should probably stay as is
