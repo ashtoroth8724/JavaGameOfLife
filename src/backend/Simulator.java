@@ -45,7 +45,7 @@ public class Simulator extends Thread {
 		//might want to changes those values later
 		this.width=100;
 		this.height=100;
-		enableLogs = true;
+		enableLogs = true; // for debugging purposes
 		
 		
 		//Default rule : Survive always, birth never
@@ -193,8 +193,8 @@ public class Simulator extends Thread {
 	 * @return list of Animals in simulated world
 	 */
 	public ArrayList<Agent> getAnimals(){
-		return agents;
-	}
+    return agents;
+}
 	/**
 	 * selects Animals in a circular area of simulated world
 	 * @param x center
@@ -221,6 +221,9 @@ public class Simulator extends Thread {
 	 */
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
+		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
+		int currentCellValue = getCell(x, y);
+		// set cell value to !currentCellValue
 	}
 	
 	/**
