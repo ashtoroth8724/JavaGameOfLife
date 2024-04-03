@@ -148,17 +148,21 @@ public class Simulator extends Thread {
 	 * method called when clicking on a cell in the interface
 	 */
 	public void clickCell(int x, int y) {
-		int currentCellValue = getCell(x, y);
-		int newCellValue;
-		if (currentCellValue == 0) {
-			System.out.println("Cell :" + x + "," + y + " is now alive");
-			newCellValue = 1; // If the cell is dead, make it alive
+		if (clickActionFlag) {
+			int currentCellValue = getCell(x, y);
+			int newCellValue;
+			if (currentCellValue == 0) {
+				System.out.println("Cell :" + x + "," + y + " is now alive");
+				newCellValue = 1; // If the cell is dead, make it alive
+			} else {
+				System.out.println("Cell :" + x + "," + y + " is now dead");
+				newCellValue = 0; // If the cell is alive, make it dead
+			}
+
+			setCell(x, y, newCellValue);
 		} else {
-			System.out.println("Cell :" + x + "," + y + " is now dead");
-			newCellValue = 0; // If the cell is alive, make it dead
+			return;
 		}
-		
-		setCell(x, y, newCellValue);
 	}
 	
 	/**
@@ -277,11 +281,13 @@ public class Simulator extends Thread {
 	}
 	
 	public void setLoopDelay(int delay) {
-		//TODO : complete method
+		//TODO-COMPLETE : complete method
+		loopDelay = delay;
 	}
 	
 	public void toggleClickAction() {
-		//TODO : complete method
+		//TODO-COMPLETE : complete method
+		clickActionFlag = !clickActionFlag;
 	}
 
 	/**
