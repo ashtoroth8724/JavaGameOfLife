@@ -116,6 +116,7 @@ public class Simulator extends Thread {
 		Table tempTable = new Table(this.height, this.width);
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
+<<<<<<< HEAD
 				if (this.table.getCell(x, y).getValue()=1) {
 					if (table.countNear(x,y)<2) {
 						tempTable.getCell(x,y).setValue(0);
@@ -132,6 +133,13 @@ public class Simulator extends Thread {
 			}
 		}
 		this.table = tempTable;
+=======
+				if (table.countNear(x,y)<2) {
+					tempTable.getCell(x,y).setValue(0);
+				}
+			}
+		}
+>>>>>>> 343c71dc317aee3d5caa32ac9b6c57dd3ac996bc
 
 		/* you should distribute this action in methods/classes
 		 * don't write everything here !
