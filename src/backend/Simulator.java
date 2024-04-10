@@ -28,6 +28,7 @@ public class Simulator extends Thread {
 	//TODO : add missing attribute(s)
 	private int width;
 	private int height;
+	private boolean enableLogs;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -44,6 +45,7 @@ public class Simulator extends Thread {
 		//might want to changes those values later
 		this.width=100;
 		this.height=100;
+		enableLogs = true; // for debugging purposes
 		
 		
 		//Default rule : Survive always, birth never
@@ -140,14 +142,40 @@ public class Simulator extends Thread {
 	 * method called when clicking pause button
 	 */
 	public void togglePause() {
-		// TODO : actually toggle the corresponding flag
+		// TODO-COMPLETE : actually toggle the corresponding flag
+		pauseFlag = !pauseFlag;
+		if (enableLogs) {
+			if (pauseFlag) {
+				System.out.println("togglePause called, Simulation paused");
+			} else {
+				System.out.println("togglePause called, Simulation unpaused");
+			}
+		}
 	}
 	
 	/**
 	 * method called when clicking on a cell in the interface
 	 */
 	public void clickCell(int x, int y) {
-		//TODO : complete method
+		if (clickActionFlag) {
+			int currentCellValue = getCell(x, y);
+			int newCellValue;
+			if (currentCellValue == 0) {
+				if (enableLogs) {
+					System.out.println("clickCell Called, cell :" + x + "," + y + " is now alive");
+				}
+				newCellValue = 1; // If the cell is dead, make it alive
+			} else {
+				if (enableLogs) {
+					System.out.println("clickCell Called, cell :" + x + "," + y + " is now dead");
+				}
+				newCellValue = 0; // If the cell is alive, make it dead
+			}
+
+			setCell(x, y, newCellValue);
+		} else {
+			return;
+		}
 	}
 	
 	/**
@@ -165,8 +193,8 @@ public class Simulator extends Thread {
 	 * @return list of Animals in simulated world
 	 */
 	public ArrayList<Agent> getAnimals(){
-		return agents;
-	}
+    return agents;
+}
 	/**
 	 * selects Animals in a circular area of simulated world
 	 * @param x center
@@ -193,6 +221,9 @@ public class Simulator extends Thread {
 	 */
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
+		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
+		int currentCellValue = getCell(x, y);
+		// set cell value to !currentCellValue
 	}
 	
 	/**
@@ -266,11 +297,23 @@ public class Simulator extends Thread {
 	}
 	
 	public void setLoopDelay(int delay) {
-		//TODO : complete method
+		//TODO-COMPLETE : complete method
+		loopDelay = delay;
+		if (enableLogs) {
+			System.out.println("Loop delay set to " + delay);
+		}
 	}
 	
 	public void toggleClickAction() {
-		//TODO : complete method
+		//TODO-COMPLETE : complete method
+		clickActionFlag = !clickActionFlag;
+		if (enableLogs) {
+			if (clickActionFlag) {
+				System.out.println("toggleClickAction called, set clickActionFlag to true");
+			} else {
+				System.out.println("toggleClickAction called, set clickActionFlag to false");
+			}
+		}
 	}
 
 	/**
