@@ -2,6 +2,8 @@ When starting a task "TODO" edit it to "TODO-INPROGRESS"
 When task is done edit it to "TODO-COMPLETE"
 If there is an error in the code edit it to "TODO-ERROR"
 
+Link Canva Whiteboard: 
+https://www.canva.com/design/DAGCBGF5b4c/4cNmhoS6lSC8Once9r_Tlg/edit?utm_content=DAGCBGF5b4c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 Reminder of game of life rules:
 1. Any living cell with strictly fewer than two living neighbors dies (referred to
