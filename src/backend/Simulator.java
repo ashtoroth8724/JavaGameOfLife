@@ -43,8 +43,8 @@ public class Simulator extends Thread {
 
 		//TODO-COMPLETE: add missing attribute initialization
 		//might want to changes those values later
-		this.width=100;
-		this.height=100;
+		this.width=COL_NUM;
+		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
 		
 		
