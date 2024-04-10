@@ -242,9 +242,24 @@ public class Simulator extends Thread {
 	 * @param val to set in cell
 	 */
 	public void setCell(int x, int y, int val) {
-		this.table.getCell(x, y).setValue(val);
+		//TODO : complete method
+		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
+		int currentCellValue = getCell(x, y);
+		// set cell value to !currentCellValue
 	}
-		
+	
+	public void countAround(int x, int y) {
+		//enableLogs
+		//getCell
+		//if loopingBorder TRUE, border count as living.
+		if (loopingBorder == true){
+
+		}
+		else {
+
+		}
+	}
+
 
 	/**
 	 * 
@@ -307,12 +322,20 @@ public class Simulator extends Thread {
 	}
 	
 	public boolean isLoopingBorder() {
-		//TODO : complete method with proper return
-		return false;
+		//ODO-COMPLETE : complete method with proper return
+		return loopingBorder;
 	}
 	
 	public void toggleLoopingBorder() {
-		//TODO : complete method
+		//ODO-COMPLETE : complete method
+		loopingBorder = !loopingBorder;
+		if (enableLogs) {
+			if (loopingBorder) {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to true");
+			} else {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to false");
+			}
+		}
 		
 	}
 	
