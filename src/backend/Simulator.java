@@ -26,6 +26,7 @@ public class Simulator extends Thread {
 	private int loopDelay = 150;
 
 	//TODO : add missing attribute(s)
+	private double randomDansitySlider = 0.5;
 	private int width;
 	private int height;
 	private boolean enableLogs;
@@ -314,6 +315,13 @@ public class Simulator extends Thread {
 		loopDelay = delay;
 		if (enableLogs) {
 			System.out.println("Loop delay set to " + delay);
+		}
+	}
+
+	public void setDansity(double density) {
+		randomDansitySlider = density;
+		if (enableLogs) {
+			System.out.println("Density set to " + density);
 		}
 	}
 	
