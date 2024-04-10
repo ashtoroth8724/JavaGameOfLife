@@ -29,6 +29,7 @@ public class Simulator extends Thread {
 	private int width;
 	private int height;
 	private boolean enableLogs;
+	private Table table;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -46,6 +47,7 @@ public class Simulator extends Thread {
 		this.width=COL_NUM;
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
+		table = new Table(height, width);
 		
 		
 		//Default rule : Survive always, birth never
@@ -110,8 +112,16 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		// TODO : apply game rule to all cells of the field
-		
+		// TODO-INPROGRESS : apply game rule to all cells of the field
+		Table tempTable = new Table(this.height, this.width);
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if (table.countNear(x,y)<2) {
+					tempTable.getCell(x,y).setValue(0);
+				}
+			}
+		}
+
 		/* you should distribute this action in methods/classes
 		 * don't write everything here !
 		 * 
