@@ -30,10 +30,26 @@ public class Table {
         //return the Cell object of coordinates x, y
         return table.get(x).get(y);
     }
-    //TODO : set(Cell, x, y) set an object Cell to coordinate x, y
+    //TODO-complete : set(Cell, x, y) set an object Cell to coordinate x, y
+    public void setCell(Cell cell, int x int y){
+        this.table.get(x).get(y) = cell;
+    }
+    //TODO-complete : count near (xy) -> return how many cells around this cell
+    public int countNear(int x, int y){
+        int cellCount =0;
+        // if border is true 
+        for (int i = x-1;i<=x+1;i++){
+            for (int j = y-1;j<=y+1;y++){
+                if not(i == j){
+                    this.table.getCell(i,j).getValue +=cellCount;
+                }
+            }
+            
+        }
+        
+        //if border is false
 
-    //TODO : count around (xy) -> return how many  around this cell
-
+    }
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
