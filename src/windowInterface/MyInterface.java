@@ -165,6 +165,11 @@ public class MyInterface extends JFrame {
 		randSlider.setMinimum(0);
 		randSlider.setMaximum(100);
 		randSlider.setPreferredSize(new Dimension(30,200));
+		randSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				changeDansity();
+			}
+		});
 		panelRight.add(randSlider);
 		
 
@@ -251,6 +256,15 @@ public class MyInterface extends JFrame {
 			mySimu.setLoopDelay(delay);
 		} else {
 			speedSlider.setValue(3);
+		}
+	}
+
+	public void changeDansity() {
+		if(mySimu != null) {
+			double density = ((double)randSlider.getValue())/((double)randSlider.getMaximum());
+			mySimu.setDansity(density);
+		} else {
+			randSlider.setValue(50);
 		}
 	}
 
@@ -379,6 +393,7 @@ public class MyInterface extends JFrame {
 	}
 	
 	public void update (int stepCount) {
+		System.out.println("update called");
 		this.setStepBanner("Step : "+ stepCount);
 		this.repaint();
 	}

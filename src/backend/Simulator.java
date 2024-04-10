@@ -26,9 +26,11 @@ public class Simulator extends Thread {
 	private int loopDelay = 150;
 
 	//TODO : add missing attribute(s)
+	private double randomDansitySlider = 0.5;
 	private int width;
 	private int height;
 	private boolean enableLogs;
+	private Table table;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -46,6 +48,7 @@ public class Simulator extends Thread {
 		this.width=COL_NUM;
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
+		table = new Table(height, width);
 		
 		
 		//Default rule : Survive always, birth never
@@ -110,8 +113,28 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		// TODO : apply game rule to all cells of the field
-		
+		// TODO-INPROGRESS : apply game rule to all cells of the field
+		Table tempTable = new Table(this.height, this.width);
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if (this.table.getCell(x, y).getValue()=1) {
+					if (table.countNear(x,y)<2) {
+						tempTable.getCell(x,y).setValue(0);
+					} else if(table.countNear(x,y)>3) {
+						tempTable.getCell(x,y).setValue(0);
+					}
+				} else {
+					if(table.countNear(x,y)==3) {
+						tempTable.getCell(x,y).setValue(1);
+					}
+				}
+				
+
+			}
+		}
+		this.table = tempTable;
+		}
+
 		/* you should distribute this action in methods/classes
 		 * don't write everything here !
 		 * 
@@ -128,8 +151,6 @@ public class Simulator extends Thread {
 		
 		
 		
-		
-	}
 	
 	/*
 	 * leave this as is
@@ -185,7 +206,8 @@ public class Simulator extends Thread {
 	 * @return value of cell
 	 */
 	public int getCell(int x, int y) {
-		//TODO : complete method with proper return
+		//TODO-ERROR :  WHY THE FUCK DOES IT WORK AT 0 BUT NOT WITH table.getcell.getvalue ????
+		//complete method with proper return
 		return 0;
 	}
 	/**
@@ -237,7 +259,7 @@ public class Simulator extends Thread {
 
 		}
 	}
-		
+
 
 	/**
 	 * 
@@ -300,12 +322,20 @@ public class Simulator extends Thread {
 	}
 	
 	public boolean isLoopingBorder() {
-		//TODO : complete method with proper return
-		return false;
+		//ODO-COMPLETE : complete method with proper return
+		return loopingBorder;
 	}
 	
 	public void toggleLoopingBorder() {
-		//TODO : complete method
+		//ODO-COMPLETE : complete method
+		loopingBorder = !loopingBorder;
+		if (enableLogs) {
+			if (loopingBorder) {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to true");
+			} else {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to false");
+			}
+		}
 		
 	}
 	
@@ -314,6 +344,13 @@ public class Simulator extends Thread {
 		loopDelay = delay;
 		if (enableLogs) {
 			System.out.println("Loop delay set to " + delay);
+		}
+	}
+
+	public void setDansity(double density) {
+		randomDansitySlider = density;
+		if (enableLogs) {
+			System.out.println("Density set to " + density);
 		}
 	}
 	
