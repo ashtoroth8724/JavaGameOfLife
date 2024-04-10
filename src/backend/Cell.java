@@ -1,10 +1,10 @@
 package backend;
 
 public class Cell {
-    protected int value;
-	protected int density;
+    private int value;
+	private int density;
 
-    protected Cell(int value, int density) {
+    public Cell(int value, int density) {
 		this.value = value;
 		this.density = density;
 	}
@@ -15,10 +15,10 @@ public class Cell {
 	public int getDensity() {
 		return density;
 	}
-	public int setValue(int value) {
+	public void setValue(int value) {
 		this.value = value;
 	}
-	public int setDensity(int density){
+	public void setDensity(int density){
 		this.density = density;
 	}
 }
