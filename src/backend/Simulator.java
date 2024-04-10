@@ -226,19 +226,6 @@ public class Simulator extends Thread {
 		int currentCellValue = getCell(x, y);
 		// set cell value to !currentCellValue
 	}
-	
-	public void countAround(int x, int y) {
-		//enableLogs
-		//getCell
-		//if loopingBorder TRUE, border count as living.
-		if (loopingBorder == true){
-
-		}
-		else {
-
-		}
-	}
-		
 
 	/**
 	 * 
@@ -301,12 +288,12 @@ public class Simulator extends Thread {
 	}
 	
 	public boolean isLoopingBorder() {
-		//TODO : complete method with proper return
-		return false;
+		//ODO-COMPLETE : complete method with proper return
+		return loopingBorder;
 	}
 	
 	public void toggleLoopingBorder() {
-		//TODO : complete method
+		//ODO-COMPLETE : complete method
 		loopingBorder = !loopingBorder;
 		if (enableLogs) {
 			if (loopingBorder) {

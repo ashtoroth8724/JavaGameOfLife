@@ -393,6 +393,7 @@ public class MyInterface extends JFrame {
 	}
 	
 	public void update (int stepCount) {
+		System.out.println("update called");
 		this.setStepBanner("Step : "+ stepCount);
 		this.repaint();
 	}
