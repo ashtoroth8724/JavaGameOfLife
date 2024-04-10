@@ -307,6 +307,14 @@ public class Simulator extends Thread {
 	
 	public void toggleLoopingBorder() {
 		//TODO : complete method
+		loopingBorder = !loopingBorder;
+		if (enableLogs) {
+			if (loopingBorder) {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to true");
+			} else {
+				System.out.println("toggleLoopingBorder called, set loopingBorder to false");
+			}
+		}
 		
 	}
 	
