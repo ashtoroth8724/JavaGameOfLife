@@ -1,10 +1,10 @@
 package backend;
 
 public class Cell {
-    protected int value;
-	protected int density;
+    private int value;
+	private int density;
 
-    protected Cell(int value, int density) {
+    public Cell(int value, int density) {
 		this.value = value;
 		this.density = density;
 	}
