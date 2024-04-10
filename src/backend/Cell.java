@@ -15,10 +15,10 @@ public class Cell {
 	public int getDensity() {
 		return density;
 	}
-	public int setValue(int value) {
+	public void setValue(int value) {
 		this.value = value;
 	}
-	public int setDensity(int density){
+	public void setDensity(int density){
 		this.density = density;
 	}
 }
