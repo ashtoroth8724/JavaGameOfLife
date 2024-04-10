@@ -288,12 +288,12 @@ public class Simulator extends Thread {
 	}
 	
 	public boolean isLoopingBorder() {
-		//TODO : complete method with proper return
+		//ODO-COMPLETE : complete method with proper return
 		return loopingBorder;
 	}
 	
 	public void toggleLoopingBorder() {
-		//TODO : complete method
+		//ODO-COMPLETE : complete method
 		loopingBorder = !loopingBorder;
 		if (enableLogs) {
 			if (loopingBorder) {
