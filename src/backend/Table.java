@@ -31,8 +31,8 @@ public class Table {
         return table.get(x).get(y);
     }
     //TODO-complete : set(Cell, x, y) set an object Cell to coordinate x, y
-    public void setCell(Cell cell, int x int y){
-        this.table.get(x).get(y) = cell;
+    public void setCell(Cell cell, int x, int y){
+        this.table.get(x).set(y,cell);
     }
     //TODO-complete : count near (xy) -> return how many cells around this cell
     public int countNear(int x, int y){
@@ -40,13 +40,13 @@ public class Table {
         // if border is true 
         for (int i = x-1;i<=x+1;i++){
             for (int j = y-1;j<=y+1;y++){
-                if not(i == j){
-                    this.table.getCell(i,j).getValue +=cellCount;
+                if (!(i == j)){
+                    cellCount += this.getCell(i,j).getValue();
                 }
             }
             
         }
-        
+        return cellCount;
         //if border is false
 
     }
