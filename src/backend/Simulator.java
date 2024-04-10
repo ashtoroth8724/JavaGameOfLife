@@ -178,7 +178,7 @@ public class Simulator extends Thread {
 	 */
 	public void clickCell(int x, int y) {
 		if (clickActionFlag) {
-			int currentCellValue = table.getCell(x, y).getValue();
+			int currentCellValue = getCell(x, y);
 			int newCellValue;
 			if (currentCellValue == 0) {
 				if (enableLogs) {
@@ -204,10 +204,11 @@ public class Simulator extends Thread {
 	 * @param y coordinate of cell
 	 * @return value of cell
 	 */
-	//public int getCell(int x, int y) {
-		//TODO : complete method with proper return
-	//	return;
-	//}
+	public int getCell(int x, int y) {
+		//TODO-ERROR :  WHY THE FUCK DOES IT WORK AT 0 BUT NOT WITH table.getcell.getvalue ????
+		//complete method with proper return
+		return 0;
+	}
 	/**
 	 * 
 	 * @return list of Animals in simulated world
