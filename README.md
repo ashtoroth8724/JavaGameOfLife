@@ -16,3 +16,6 @@ With the implied additional rules:
 4. Any living cell with two or three living neighbors continues to live, unchanged.
 5. Any dead cell who doesn’t have exactly 3 living neighbors stays dead,
 unchanged.
+
+
+TEST
