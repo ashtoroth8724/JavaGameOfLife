@@ -226,6 +226,19 @@ public class Simulator extends Thread {
 		// set cell value to !currentCellValue
 	}
 	
+	public void countAround(int x, int y) {
+		//enableLogs
+		//getCell
+		//if loopingBorder TRUE, border count as living.
+		if (loopingBorder == true){
+
+		}
+		else {
+
+		}
+	}
+		
+
 	/**
 	 * 
 	 * @return lines of file representing 
