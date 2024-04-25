@@ -17,6 +17,15 @@ public class Table {
         //initialize the table
         int vertexCount = 3;
         table = new ArrayList<>(vertexCount);
+
+
+        //fill the table will empty cells
+        Cell emptyCell = new Cell(0,0);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                this.setCell(emptyCell,i,j);
+            }
+        }
     }
 
     public int getheight() {
