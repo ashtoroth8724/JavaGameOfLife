@@ -48,7 +48,7 @@ public class Simulator extends Thread {
 		this.width=COL_NUM;
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
-		table = new Table(height, width);
+		table = new Table(height, width, this);
 		
 		
 		//Default rule : Survive always, birth never
@@ -114,7 +114,7 @@ public class Simulator extends Thread {
 		}
 		//then evolution of the field
 		// TODO-INPROGRESS : apply game rule to all cells of the field
-		Table tempTable = new Table(this.height, this.width);
+		Table tempTable = new Table(this.height, this.width, this);
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
 				if (table.getCell(x, y).getValue()==1) {

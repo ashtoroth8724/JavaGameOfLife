@@ -8,13 +8,11 @@ public class Table {
     private ArrayList<ArrayList<Cell>> table; 
     private Simulator simulator;
 
-
     //TODO-INPROGRESS : create constructor
-    public Table(int height, int width) {
+    public Table(int height, int width, Simulator tempSimulator) {
         this.height = height;
         this.width = width;
-        this.simulator = simulator;
-
+        this.simulator = tempSimulator;
 
         //initialize the table
         int vertexCount = 3;
@@ -28,16 +26,35 @@ public class Table {
     public int getwidth() {
         return this.width;
     }
+    public boolean isLoopingBorder() {
+        return simulator.isLoopingBorder();
+    }
 
     //TODO-COMPLETE : create getCell
     public Cell getCell(int x,int y) {
         //return the Cell object of coordinates x, y
         return table.get(x).get(y);
     }
-    //TODO : set(Cell, x, y) set an object Cell to coordinate x, y
+    //TODO-complete : set(Cell, x, y) set an object Cell to coordinate x, y
+    public void setCell(Cell cell, int x, int y){
+        this.table.get(x).set(y,cell);
+    }
+    //TODO-complete : count near (xy) -> return how many cells around this cell
+    public int countNear(int x, int y){
+        int cellCount =0;
+        // if border is true 
+        for (int i = x-1;i<=x+1;i++){
+            for (int j = y-1;j<=y+1;y++){
+                if (!(i == j)){
+                    cellCount += this.getCell(i,j).getValue();
+                }
+            }
+            
+        }
+        return cellCount;
+        //if border is false
 
-    //TODO : count around (xy) -> return how many  around this cell
-
+    }
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
