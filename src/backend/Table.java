@@ -76,7 +76,18 @@ public class Table {
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
-
+    public void setRandom(double density) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                double random = Math.random();
+                if (random < density) {
+                    table.get(i).get(j).setValue(1);
+                } else {
+                    table.get(i).get(j).setValue(0);
+                }
+            }
+        }
+    }
 
     //TODO : load(filepath) turn a loaded saveable file into a table
     //TODO : save(filename) turn the table into saveable file
