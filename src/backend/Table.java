@@ -14,18 +14,26 @@ public class Table {
         this.width = width;
         this.simulator = tempSimulator;
 
-        //initialize the table
-        int vertexCount = 3;
-        table = new ArrayList<>(vertexCount);
-
+        //initialize the row arraylist
+        table = new ArrayList<>(height);
 
         //fill the table will empty cells
         Cell emptyCell = new Cell(0,0);
         for (int i = 0; i < height; i++) {
+            //initialize each element of row ArrayList with another column ArrayList:
+            this.table.add(i, new ArrayList<Cell>());
             for (int j = 0; j < width; j++) {
-                this.setCell(emptyCell,i,j);
+                //initialize each cell for each column
+                this.table.get(i).add(emptyCell);
             }
         }
+
+        //TESTS:
+        //System.out.println(this.getCell(0, 0).getValue());
+        //System.out.println(this.countNear(0, 0));
+        //Cell aliveCell = new Cell(1, 0);
+        //this.setCell(0, 0, aliveCell);
+        //System.out.println(this.getCell(0, 0).getValue());
     }
 
     public int getheight() {
@@ -40,20 +48,21 @@ public class Table {
     }
 
     //TODO-COMPLETE : create getCell
-    public Cell getCell(int x,int y) {
+    public Cell getCell(int row,int column) {
         //return the Cell object of coordinates x, y
-        return table.get(x).get(y);
+        return table.get(row).get(column);
     }
     //TODO-complete : set(Cell, x, y) set an object Cell to coordinate x, y
-    public void setCell(Cell cell, int x, int y){
-        this.table.get(x).set(y,cell);
+    public void setCell(int row, int column, Cell cell){
+        this.table.get(row).set(column, cell);
     }
+
     //TODO-complete : count near (xy) -> return how many cells around this cell
-    public int countNear(int x, int y){
+    public int countNear(int row, int column){
         int cellCount =0;
         // if border is true 
-        for (int i = x-1;i<=x+1;i++){
-            for (int j = y-1;j<=y+1;y++){
+        for (int i = row-1;i<=row+1;i++){
+            for (int j = column-1;j<=column+1;column++){
                 if (!(i == j)){
                     cellCount += this.getCell(i,j).getValue();
                 }
