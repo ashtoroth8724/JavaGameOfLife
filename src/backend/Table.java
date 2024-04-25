@@ -6,11 +6,15 @@ public class Table {
     private int height;
     private int width;
     private ArrayList<ArrayList<Cell>> table; 
+    private Simulator simulator;
+
 
     //TODO-INPROGRESS : create constructor
     public Table(int height, int width) {
         this.height = height;
         this.width = width;
+        this.simulator = simulator;
+
 
         //initialize the table
         int vertexCount = 3;
@@ -30,10 +34,31 @@ public class Table {
         //return the Cell object of coordinates x, y
         return table.get(x).get(y);
     }
-    //TODO : set(Cell, x, y) set an object Cell to coordinate x, y
+    //TODO-INPROGRESS : set(Cell, x, y) set an object Cell to coordinate x, y
+    public void setCell(Cell cell, int x, int y) {
+        table.get(x).set(y, cell);
+    }
 
-    //TODO : count around (xy) -> return how many  around this cell
+    public boolean isLoopingBorder() {
+        return simulator.isLoopingBorder();
+    }
 
+
+    //TODO-INPROGRESS : count around (xy) -> return how many  around this cell
+    //2 modes needed : 1 with borders and 1 without
+    public int countNear(int x, int y) {
+        // Count the number of living cells around the specified cell
+        int count = 0;
+        return count;
+    }
+
+
+
+
+
+
+
+    
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
