@@ -117,7 +117,7 @@ public class Simulator extends Thread {
 		Table tempTable = new Table(this.height, this.width);
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
-				if (this.table.getCell(x, y).getValue()=1) {
+				if (table.getCell(x, y).getValue()==1) {
 					if (table.countNear(x,y)<2) {
 						tempTable.getCell(x,y).setValue(0);
 					} else if(table.countNear(x,y)>3) {

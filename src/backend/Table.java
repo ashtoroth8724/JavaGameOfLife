@@ -34,31 +34,10 @@ public class Table {
         //return the Cell object of coordinates x, y
         return table.get(x).get(y);
     }
-    //TODO-INPROGRESS : set(Cell, x, y) set an object Cell to coordinate x, y
-    public void setCell(Cell cell, int x, int y) {
-        table.get(x).set(y, cell);
-    }
+    //TODO : set(Cell, x, y) set an object Cell to coordinate x, y
 
-    public boolean isLoopingBorder() {
-        return simulator.isLoopingBorder();
-    }
+    //TODO : count around (xy) -> return how many  around this cell
 
-
-    //TODO-INPROGRESS : count around (xy) -> return how many  around this cell
-    //2 modes needed : 1 with borders and 1 without
-    public int countNear(int x, int y) {
-        // Count the number of living cells around the specified cell
-        int count = 0;
-        return count;
-    }
-
-
-
-
-
-
-
-    
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
