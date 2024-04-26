@@ -206,9 +206,9 @@ public class Simulator extends Thread {
 	 * @return value of cell
 	 */
 	public int getCell(int x, int y) {
-		//TODO-ERROR :  WHY THE FUCK DOES IT WORK AT 0 BUT NOT WITH table.getcell.getvalue ????
+		//TODO-INPROGRESS :
 		//complete method with proper return
-		return 0;
+		return this.table.getCell(x,y).getValue();
 	}
 	/**
 	 * 
@@ -244,7 +244,12 @@ public class Simulator extends Thread {
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
 		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
-		int currentCellValue = getCell(x, y);
+		int currentCellValue = this.getCell(x, y);
+		if (currentCellValue==0) {
+			this.table.getCell(x, y).setValue(1);
+		}else {
+			this.table.getCell(x, y).setValue(0);
+		}
 		// set cell value to !currentCellValue
 	}
 	
@@ -252,12 +257,7 @@ public class Simulator extends Thread {
 		//enableLogs
 		//getCell
 		//if loopingBorder TRUE, border count as living.
-		if (loopingBorder == true){
-
-		}
-		else {
-
-		}
+		this.table.countNear(x, y);
 	}
 
 
@@ -311,14 +311,7 @@ public class Simulator extends Thread {
 	 * to be alive in new state
 	 */
 	public void generateRandom(float chanceOfLife) {
-		//TODO : complete method
-		/*
-		 * Advice :
-		 * as you should probably have a separate class
-		 * representing the field of cells...
-		 * maybe just make a constructor in there 
-		 * and use it here
-		 */
+		this.table.setRandom(chanceOfLife);
 	}
 	
 	public boolean isLoopingBorder() {

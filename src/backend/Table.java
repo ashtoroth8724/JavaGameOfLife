@@ -64,7 +64,11 @@ public class Table {
         for (int i = row-1;i<=row+1;i++){
             for (int j = column-1;j<=column+1;column++){
                 if (!(i == j)){
-                    cellCount += this.getCell(i,j).getValue();
+                    if (i<0 || i>=width || j<0 || j>=height){
+                        //TODO what to do when out of bound (wall alive or dead/ looping border) (wall dead by default)
+                    } else {
+                        cellCount += this.getCell(i,j).getValue();
+                    }
                 }
             }
             
@@ -87,6 +91,7 @@ public class Table {
                 }
             }
         }
+        System.out.println("Created a random field");
     }
 
     //TODO : load(filepath) turn a loaded saveable file into a table
