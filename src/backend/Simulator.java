@@ -31,6 +31,7 @@ public class Simulator extends Thread {
 	private int height;
 	private boolean enableLogs;
 	private Table table;
+	private boolean cellDensityToggle;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -38,6 +39,7 @@ public class Simulator extends Thread {
 		pauseFlag=false;
 		loopingBorder=false;
 		clickActionFlag=false;
+		cellDensityToggle=true;
 
 		agents = new ArrayList<Agent>();
 		fieldBirthValues = new ArrayList<Integer>();
@@ -180,19 +182,52 @@ public class Simulator extends Thread {
 	public void clickCell(int x, int y) {
 		if (clickActionFlag) {
 			int currentCellValue = getCell(x, y);
-			int newCellValue;
-			if (currentCellValue == 0) {
-				if (enableLogs) {
-					System.out.println("clickCell Called, cell :" + x + "," + y + " is now alive");
+			int newCellValue = 0;
+			if(cellDensityToggle) {
+				if (currentCellValue == -1) {
+					newCellValue = 0;
+					if (enableLogs) {
+							System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+						}
+					}
+				if (currentCellValue == 0) {
+					newCellValue = 1;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				} 
+				if (currentCellValue == 1) {
+					newCellValue = 2;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
 				}
-				newCellValue = 1; // If the cell is dead, make it alive
+				if (currentCellValue == 2) {
+					newCellValue = 3;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				} 
+				if (currentCellValue == 3) {
+					newCellValue = -1;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				}
+				this.setCell(x, y, newCellValue);
 			} else {
-				if (enableLogs) {
-					System.out.println("clickCell Called, cell :" + x + "," + y + " is now dead");
+				if (currentCellValue == 0) {
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+					newCellValue = 1;
+				} else {
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+					newCellValue = 0;
 				}
-				newCellValue = 0; // If the cell is alive, make it dead
 			}
-
 			this.setCell(x, y, newCellValue);
 		} else {
 			return;
