@@ -56,24 +56,25 @@ public class Table {
         this.table.get(row).set(column, cell);
     }
 
-    //TODO-complete : count near (xy) -> return how many cells around this cell
+    //TODO-INPROGRESS : count near (xy) -> return how many cells around this cell
+    // NEED A STRONG OPTIMISATION
     public int countNear(int row, int column){
         int cellCount =0;
-        // if border is true 
-        for (int i = row-1;i<=row+1;i++){
-            for (int j = column-1;j<=column+1;column++){
-                if (!(i == j)){
-                    if (i<0 || i>=width || j<0 || j>=height){
+        for (int x = row-1;x<=row+1;x++){
+            for (int y = column-1;y<=column+1;column++){
+                if (!(x == y)){
+                    try {
+                        cellCount += this.getCell(x,y).getValue();
+                    }
+                    catch(Exception e) {
+                        cellCount +=0;
                         //TODO what to do when out of bound (wall alive or dead/ looping border) (wall dead by default)
-                    } else {
-                        cellCount += this.getCell(i,j).getValue();
                     }
                 }
             }
             
         }
-        return cellCount;
-        //if border is false
+        return 0;
 
     }
     //TODO : set agent (x y agent) load an agent to coordinates x,y

@@ -71,6 +71,7 @@ public class Simulator extends Thread {
 	//Should probably stay as is
 	public void run() {
 		int stepCount=0;
+		System.out.println("Step Count: "+ stepCount);
 		while(!stopFlag) {
 			stepCount++;
 			makeStep();
@@ -114,26 +115,10 @@ public class Simulator extends Thread {
 		}
 		//then evolution of the field
 		// TODO-INPROGRESS : apply game rule to all cells of the field
-		Table tempTable = new Table(this.height, this.width, this);
-		for(int x=0; x<width; x++) {
-			for(int y=0; y<height; y++) {
-				if (table.getCell(x, y).getValue()==1) {
-					if (table.countNear(x,y)<2) {
-						tempTable.getCell(x,y).setValue(0);
-					} else if(table.countNear(x,y)>3) {
-						tempTable.getCell(x,y).setValue(0);
-					}
-				} else {
-					if(table.countNear(x,y)==3) {
-						tempTable.getCell(x,y).setValue(1);
-					}
-				}
-				
+		this.applyRule();
 
-			}
-		}
-		this.table = tempTable;
-		}
+
+	}
 
 		/* you should distribute this action in methods/classes
 		 * don't write everything here !
@@ -216,7 +201,7 @@ public class Simulator extends Thread {
 	 */
 	public ArrayList<Agent> getAnimals(){
     return agents;
-}
+	}
 	/**
 	 * selects Animals in a circular area of simulated world
 	 * @param x center
@@ -244,7 +229,6 @@ public class Simulator extends Thread {
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
 		this.table.getCell(x, y).setValue(val);
-		// set cell value to !currentCellValue
 	}
 	
 	public void countAround(int x, int y) {
@@ -372,26 +356,57 @@ public class Simulator extends Thread {
 			System.out.println("empty rule file");
 			return;
 		}
-		//TODO : remove previous rule (=emptying lists)
-		
+		//TODO-INPROGRESS : remove previous rule (=emptying lists)
+		fieldSurviveValues = new ArrayList<Integer>();
+		fieldBirthValues = new ArrayList<Integer>();
 		
 		String surviveLine = lines.get(0);
 		String birthLine = lines.get(1);
+		
 		String[] surviveElements = surviveLine.split(";");
 		for(int x=0; x<surviveElements.length;x++) {
 			String elem = surviveElements[x];
 			int value = Integer.parseInt(elem);
-			//TODO : add value to possible survive values
+			//TODO-INPROGRESS : add value to possible survive values
+			fieldSurviveValues.add(value);
 			
 		}
+
 		String[] birthElements = birthLine.split(";");
 		for(int x=0; x<birthElements.length;x++) {
 			String elem = birthElements[x];
 			int value = Integer.parseInt(elem);
-			//TODO : add value to possible birth values
-			
+			//TODO-INPROGRESS : add value to possible birth values
+			fieldBirthValues.add(value);
 		}
 	}
+
+	public void applyRule(){
+		Table tempTable = new Table(this.height, this.width, this);
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if (this.getCell(x,y)==1) {
+					if (this.fieldSurviveValues.contains(this.table.countNear(x, y))) {
+						this.setCell(x, y, 1);
+					} else {
+						this.setCell(x, y, 0);
+					}
+				} 
+				else if(this.getCell(x,y)==0) {
+					if (this.fieldBirthValues.contains(this.table.countNear(x, y))) {
+						this.setCell(x, y, 1);
+					} else {
+						this.setCell(x, y, 0);
+					}
+				}
+				System.out.println("applying rule to cell: "+x+", "+y);
+				
+
+			}
+		}
+		this.table = tempTable;
+	}
+	
 	
 	public ArrayList<String> getAgentsSave() {
 		//TODO : Same idea as the other save method, but for agents
