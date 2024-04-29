@@ -35,7 +35,6 @@ public class JPanelDraw extends JPanel {
 	        }); 
 	}
 	
-
 	public void setSimu(Simulator simu) {
 		mySimu = simu;
 	}
@@ -60,17 +59,20 @@ public class JPanelDraw extends JPanel {
 			for(int x=0; x<mySimu.getWidth();x++) {
 				for (int y=0; y<mySimu.getHeight(); y++) {
 					int cellContent = mySimu.getCell(x,y);
+					if(cellContent == -1) {
+						g.setColor(Color.gray);
+					}
 					if(cellContent == 0) {
 						continue;
 					}
 					if(cellContent == 1) {
-						g.setColor(Color.green);
+						g.setColor(Color.white);
 					}
 					if(cellContent == 2) {
 						g.setColor(Color.yellow);
 					}
 					if(cellContent == 3) {
-						g.setColor(Color.cyan);
+						g.setColor(Color.red);
 					}
 					g.fillRect(
 							(int) Math.round(x*cellWidth),

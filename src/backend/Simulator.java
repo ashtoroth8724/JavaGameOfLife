@@ -7,8 +7,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 10;
-	private final int LINE_NUM = 10;
+	private final int COL_NUM = 100;
+	private final int LINE_NUM = 100;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -31,6 +31,7 @@ public class Simulator extends Thread {
 	private int height;
 	private boolean enableLogs;
 	private Table table;
+	private boolean cellDensityToggle;
 
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
@@ -49,6 +50,8 @@ public class Simulator extends Thread {
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
 		table = new Table(height, width, this);
+		cellDensityToggle=false;
+
 		
 		
 		//Default rule : Survive always, birth never
@@ -180,19 +183,52 @@ public class Simulator extends Thread {
 	public void clickCell(int x, int y) {
 		if (clickActionFlag) {
 			int currentCellValue = getCell(x, y);
-			int newCellValue;
-			if (currentCellValue == 0) {
-				if (enableLogs) {
-					System.out.println("clickCell Called, cell :" + x + "," + y + " is now alive");
+			int newCellValue = 0;
+			if(cellDensityToggle) {
+				if (currentCellValue == -1) {
+					newCellValue = 0;
+					if (enableLogs) {
+							System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+						}
+					}
+				if (currentCellValue == 0) {
+					newCellValue = 1;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				} 
+				if (currentCellValue == 1) {
+					newCellValue = 2;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
 				}
-				newCellValue = 1; // If the cell is dead, make it alive
+				if (currentCellValue == 2) {
+					newCellValue = 3;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				} 
+				if (currentCellValue == 3) {
+					newCellValue = -1;
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+				}
+				this.setCell(x, y, newCellValue);
 			} else {
-				if (enableLogs) {
-					System.out.println("clickCell Called, cell :" + x + "," + y + " is now dead");
+				if (currentCellValue == 0) {
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+					newCellValue = 1;
+				} else {
+					if (enableLogs) {
+						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+					}
+					newCellValue = 0;
 				}
-				newCellValue = 0; // If the cell is alive, make it dead
 			}
-
 			this.setCell(x, y, newCellValue);
 		} else {
 			return;
@@ -269,6 +305,7 @@ public class Simulator extends Thread {
 	 * @param lines of file representing saved world state
 	 */
 	public void loadSaveState(ArrayList<String> lines) {
+		System.out.println("loadSaveState called");
 		/*
 		 * First some checks that the file is usable
 		 * We call early returns in conditions like this
@@ -289,8 +326,11 @@ public class Simulator extends Thread {
 		 */
 		for(int y =0; y<lines.size();y++) {
 			String line = lines.get(y);
+			System.out.println("line : " + line);
 			String[] lineElements = line.split(";");
 			for(int x=0; x<lineElements.length;x++) {
+				System.out.println("x : " + x);
+				System.out.println("lineElements : " + lineElements[x]);
 				String elem = lineElements[x];
 				int value = Integer.parseInt(elem);
 				setCell(x, y, value);
