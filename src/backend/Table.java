@@ -23,7 +23,7 @@ public class Table {
             this.table.add(i, new ArrayList<Cell>());
             for (int j = 0; j < width; j++) {
                 //initialize each cell for each column
-                this.table.get(i).add(new Cell(0,1));
+                this.table.get(i).add(new Cell(0));
             }
         }
 
