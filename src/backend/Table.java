@@ -18,13 +18,12 @@ public class Table {
         table = new ArrayList<>(height);
 
         //fill the table will empty cells
-        Cell emptyCell = new Cell(0,0);
         for (int i = 0; i < height; i++) {
             //initialize each element of row ArrayList with another column ArrayList:
             this.table.add(i, new ArrayList<Cell>());
             for (int j = 0; j < width; j++) {
                 //initialize each cell for each column
-                this.table.get(i).add(emptyCell);
+                this.table.get(i).add(new Cell(0,1));
             }
         }
 
@@ -96,4 +95,14 @@ public class Table {
 
     //TODO : load(filepath) turn a loaded saveable file into a table
     //TODO : save(filename) turn the table into saveable file
+
+    public void serialPrint(){
+        for (int i = 0; i < height; i++) {
+            System.out.print("\n");
+            for (int j = 0; j < width; j++) {
+                System.out.print(this.getCell(i, j).getValue() +" ");
+            }
+        }
+    }
+
 }

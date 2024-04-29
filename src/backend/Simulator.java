@@ -193,7 +193,7 @@ public class Simulator extends Thread {
 				newCellValue = 0; // If the cell is alive, make it dead
 			}
 
-			setCell(x, y, newCellValue);
+			this.setCell(x, y, newCellValue);
 		} else {
 			return;
 		}
@@ -243,15 +243,6 @@ public class Simulator extends Thread {
 	 */
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
-		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
-		/*
-		int currentCellValue = this.getCell(x, y);
-		if (currentCellValue==0) {
-			this.table.getCell(x, y).setValue(1);
-		}else {
-			this.table.getCell(x, y).setValue(0);
-		}
-		*/
 		this.table.getCell(x, y).setValue(val);
 		// set cell value to !currentCellValue
 	}
