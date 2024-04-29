@@ -7,8 +7,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 100;
-	private final int LINE_NUM = 100;
+	private final int COL_NUM = 10;
+	private final int LINE_NUM = 10;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -244,12 +244,15 @@ public class Simulator extends Thread {
 	public void setCell(int x, int y, int val) {
 		//TODO : complete method
 		//j'ai ajouté une base, mais manque la partie qui modifie la valeur de la cellule
+		/*
 		int currentCellValue = this.getCell(x, y);
 		if (currentCellValue==0) {
 			this.table.getCell(x, y).setValue(1);
 		}else {
 			this.table.getCell(x, y).setValue(0);
 		}
+		*/
+		this.table.getCell(x, y).setValue(val);
 		// set cell value to !currentCellValue
 	}
 	
