@@ -187,48 +187,31 @@ public class Simulator extends Thread {
 			if(cellDensityToggle) {
 				if (currentCellValue == -1) {
 					newCellValue = 0;
-					if (enableLogs) {
-							System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-						}
-					}
+				}
 				if (currentCellValue == 0) {
 					newCellValue = 1;
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 				} 
 				if (currentCellValue == 1) {
 					newCellValue = 2;
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 				}
 				if (currentCellValue == 2) {
 					newCellValue = 3;
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 				} 
 				if (currentCellValue == 3) {
 					newCellValue = -1;
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 				}
-				this.setCell(x, y, newCellValue);
 			} else {
 				if (currentCellValue == 0) {
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 					newCellValue = 1;
 				} else {
-					if (enableLogs) {
-						System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
-					}
 					newCellValue = 0;
 				}
 			}
+		
+			if (enableLogs) {
+				System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+			}
+			
 			this.setCell(x, y, newCellValue);
 		} else {
 			return;
@@ -448,15 +431,9 @@ public class Simulator extends Thread {
 	 * @return String representation of click action
 	 */
 	public String clickActionName() {
-		// TODO-COMPLETE : initially return "sheep" or "cell"
+		// TODO : initially return "sheep" or "cell"
 		// depending on clickActionFlag
-		if (clickActionFlag){
-			return "cell";
-		}
-		else {
-			return "sheep";
-		}
-		
+		return "";
 	}
 
 }
