@@ -448,9 +448,15 @@ public class Simulator extends Thread {
 	 * @return String representation of click action
 	 */
 	public String clickActionName() {
-		// TODO : initially return "sheep" or "cell"
+		// TODO-COMPLETE : initially return "sheep" or "cell"
 		// depending on clickActionFlag
-		return "";
+		if (clickActionFlag){
+			return "cell";
+		}
+		else {
+			return "sheep";
+		}
+		
 	}
 
 }
