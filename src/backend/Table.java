@@ -93,9 +93,6 @@ public class Table {
         System.out.println("Created a random field");
     }
 
-    //TODO : load(filepath) turn a loaded saveable file into a table
-    //TODO : save(filename) turn the table into saveable file
-
     public void serialPrint(){
         for (int i = 0; i < height; i++) {
             System.out.print("\n");

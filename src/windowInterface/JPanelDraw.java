@@ -35,7 +35,6 @@ public class JPanelDraw extends JPanel {
 	        }); 
 	}
 	
-
 	public void setSimu(Simulator simu) {
 		mySimu = simu;
 	}
