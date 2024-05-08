@@ -60,24 +60,33 @@ public class Table {
     // NEED A STRONG OPTIMISATION
     public int countNear(int row, int column){
         int count = 0;
+        boolean loopingBorder = isLoopingBorder();
         // Define the relative positions of neighboring cells (assuming 8 neighbors)
         int[][] neighbors = {
             {-1, -1}, {-1, 0}, {-1, 1},
             {0, -1},          {0, 1},
             {1, -1},  {1, 0},  {1, 1}
         };
-
+    
         for (int[] neighbor : neighbors) {
             int x = row + neighbor[0];
             int y = column + neighbor[1];
-            // Check if the new indices are within the table boundaries
-            if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-                count+= this.getCell(x, y).getValue();
+    
+            if (loopingBorder) {
+                x = (x + width) % width;
+                y = (y + height) % height;
             }
+    
+            if (!loopingBorder && (x < 0 || x >= width || y < 0 || y >= height)) {
+                continue;
+            }
+    
+            count += this.getCell(x, y).getValue();
         }
-
+    
         return count;
     }
+    
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
