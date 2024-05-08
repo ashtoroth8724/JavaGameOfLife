@@ -450,7 +450,12 @@ public class Simulator extends Thread {
 	public String clickActionName() {
 		// TODO : initially return "sheep" or "cell"
 		// depending on clickActionFlag
-		return "";
+		if (clickActionFlag){
+			return "cell";
+		}
+		else {
+			return "sheep";
+		}
 	}
 
 }
