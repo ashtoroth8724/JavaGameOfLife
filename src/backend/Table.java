@@ -59,9 +59,7 @@ public class Table {
     //TODO-INPROGRESS : count near (xy) -> return how many cells around this cell
     // NEED A STRONG OPTIMISATION
     public int countNear(int row, int column){
-        int numRows = this.width;
-        int numColumns = this.height;
-
+        int count = 0;
         // Define the relative positions of neighboring cells (assuming 8 neighbors)
         int[][] neighbors = {
             {-1, -1}, {-1, 0}, {-1, 1},
@@ -69,13 +67,12 @@ public class Table {
             {1, -1},  {1, 0},  {1, 1}
         };
 
-        int count = 0;
         for (int[] neighbor : neighbors) {
-            int newRow = row + neighbor[0];
-            int newColumn = column + neighbor[1];
+            int x = row + neighbor[0];
+            int y = column + neighbor[1];
             // Check if the new indices are within the table boundaries
-            if (newRow >= 0 && newRow < numRows && newColumn >= 0 && newColumn < numColumns) {
-                count+= this.getCell(newRow, newColumn).getValue();
+            if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+                count+= this.getCell(x, y).getValue();
             }
         }
 
