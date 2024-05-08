@@ -75,10 +75,12 @@ public class Table {
             if (loopingBorder) {
                 x = (x + width) % width;
                 y = (y + height) % height;
-            }
-    
-            if (!loopingBorder && (x < 0 || x >= width || y < 0 || y >= height)) {
-                continue;
+            } 
+            else {
+                if (x < 0 || x >= width || y < 0 || y >= height) {
+                    count += 0; // Border cell is dead
+                    continue;
+                }
             }
     
             count += this.getCell(x, y).getValue();
@@ -86,6 +88,7 @@ public class Table {
     
         return count;
     }
+    
     
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
