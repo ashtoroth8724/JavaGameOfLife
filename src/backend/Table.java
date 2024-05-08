@@ -59,23 +59,27 @@ public class Table {
     //TODO-INPROGRESS : count near (xy) -> return how many cells around this cell
     // NEED A STRONG OPTIMISATION
     public int countNear(int row, int column){
-        int cellCount =0;
-        for (int x = row-1;x<=row+1;x++){
-            for (int y = column-1;y<=column+1;column++){
-                if (!(x == y)){
-                    try {
-                        cellCount += this.getCell(x,y).getValue();
-                    }
-                    catch(Exception e) {
-                        cellCount +=0;
-                        //TODO what to do when out of bound (wall alive or dead/ looping border) (wall dead by default)
-                    }
-                }
-            }
-            
-        }
-        return 0;
+        int numRows = this.width;
+        int numColumns = this.height;
 
+        // Define the relative positions of neighboring cells (assuming 8 neighbors)
+        int[][] neighbors = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1},          {0, 1},
+            {1, -1},  {1, 0},  {1, 1}
+        };
+
+        int count = 0;
+        for (int[] neighbor : neighbors) {
+            int newRow = row + neighbor[0];
+            int newColumn = column + neighbor[1];
+            // Check if the new indices are within the table boundaries
+            if (newRow >= 0 && newRow < numRows && newColumn >= 0 && newColumn < numColumns) {
+                count+= this.getCell(newRow, newColumn).getValue();
+            }
+        }
+
+        return count;
     }
     //TODO : set agent (x y agent) load an agent to coordinates x,y
 
