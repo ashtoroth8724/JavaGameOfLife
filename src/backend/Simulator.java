@@ -408,21 +408,23 @@ public class Simulator extends Thread {
 		Table tempTable = new Table(this.height, this.width, this);
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
+				int resultCountNear = this.table.countNear(x, y);
 				if (this.getCell(x,y)==1) {
-					if (this.fieldSurviveValues.contains(this.table.countNear(x, y))) {
-						this.setCell(x, y, 1);
+					if (this.fieldSurviveValues.contains(resultCountNear)) {
+						tempTable.getCell(x, y).setValue(1);
 					} else {
-						this.setCell(x, y, 0);
+						tempTable.getCell(x, y).setValue(0);
 					}
 				} 
 				else if(this.getCell(x,y)==0) {
-					if (this.fieldBirthValues.contains(this.table.countNear(x, y))) {
-						this.setCell(x, y, 1);
+					if (this.fieldBirthValues.contains(resultCountNear)) {
+						tempTable.getCell(x, y).setValue(1);
 					} else {
-						this.setCell(x, y, 0);
+						tempTable.getCell(x, y).setValue(0);
 					}
 				}
-				System.out.println("applying rule to cell: "+x+", "+y);
+				//DEBUG:
+				//System.out.println("applying rule to cell: "+x+", "+y + " | countnear = " + resultCountNear + " | new cell value = " + this.getCell(x, y));
 				
 
 			}
