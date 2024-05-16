@@ -2,15 +2,15 @@
     "value" :   1,
     "color" : [255,255,255],
     "conditionCountNear" : [2,3],
-    "conditionHighestNear" : null,
+    "conditionHighestNear" : [],
     "ifValue" : 1,
     "elseValue" : 0
 }},
 {"cell": {
     "value" :   0,
-    "color" : [0,0,0],
+    "color" : [102,0,0],
     "conditionCountNear" : [3],
-    "conditionHighestNear" : null,
+    "conditionHighestNear" : [],
     "ifValue" : 1,
     "elseValue" : 0
 }}

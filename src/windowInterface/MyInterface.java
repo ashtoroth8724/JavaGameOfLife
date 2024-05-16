@@ -310,26 +310,8 @@ public class MyInterface extends JFrame {
 		ArrayList<String> stringArray = new ArrayList<String>();
 		if (fileName.length()>0) {
 			try {
-				//TODO-INPROGRESS load json
-				JSONParser jsonParser = new JSONParser();
-				try (FileReader reader = new FileReader(fileName))
-				{
-					//Read JSON file
-					Object obj = jsonParser.parse(reader);
-		
-					JSONArray cellList = (JSONArray) obj;
-					//System.out.println(cellList);
-					mySimu.loadRule(cellList);
-					//Iterate over employee array
-					//cellList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
-		
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				mySimu.loadRule(fileName);
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();
