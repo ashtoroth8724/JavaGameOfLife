@@ -17,5 +17,7 @@ With the implied additional rules:
 5. Any dead cell who doesn’t have exactly 3 living neighbors stays dead,
 unchanged.
 
-
-TEST
+To download the json library:
+https://code.google.com/archive/p/json-simple/downloads
+tutorial to install it on vscode:
+https://www.youtube.com/watch?v=g6vvEEm2hhs

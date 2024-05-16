@@ -1,15 +1,17 @@
 package backend;
 
-public class rules {
+import java.util.ArrayList;
+
+public class Rule {
 
     private int value;
-    private int[] color;
-    private int[] conditionCountNear;
-    private int[] conditionHighestNear;
+    private ArrayList<Integer> color;
+    private ArrayList<Integer> conditionCountNear;
+    private ArrayList<Integer> conditionHighestNear;
     private int ifValue;
     private int elseValue;
 
-    public rules(int value , int[] color, int[] conditionCountNear, int[] conditionHighestNear, int ifValue, int elseValue) {
+    public Rule(int value , ArrayList<Integer> color, ArrayList<Integer> conditionCountNear, ArrayList<Integer> conditionHighestNear, int ifValue, int elseValue) {
         this.value = value;
         this.color = color;
         this.conditionCountNear = conditionCountNear;
@@ -22,27 +24,27 @@ public class rules {
 		return value;
 	}
 
-    public int[] getColor() {
+    public ArrayList<Integer> getColor() {
         return color;
     }
 
-    public void setColor(int[] color) {
+    public void setColor(ArrayList<Integer> color) {
         this.color = color;
     }
 
-    public int[] getConditionCountNear() {
+    public ArrayList<Integer> getConditionCountNear() {
         return conditionCountNear;
     }
 
-    public void setConditionCountNear(int[] conditionCountNear) {
+    public void setConditionCountNear(ArrayList<Integer> conditionCountNear) {
         this.conditionCountNear = conditionCountNear;
     }
 
-    public int[] getConditionHighestNear() {
+    public ArrayList<Integer> getConditionHighestNear() {
         return conditionHighestNear;
     }
 
-    public void setConditionHighestNear(int[] conditionHighestNear) {
+    public void setConditionHighestNear(ArrayList<Integer> conditionHighestNear) {
         this.conditionHighestNear = conditionHighestNear;
     }
 

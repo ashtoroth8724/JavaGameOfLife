@@ -1,6 +1,11 @@
 package backend;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import windowInterface.MyInterface;
 
@@ -32,6 +37,11 @@ public class Simulator extends Thread {
 	private Table table;
 	private boolean cellDensityToggle;
 
+	//Rules Arraylists
+	private ArrayList<Rule> ruleArrayList = new ArrayList<Rule>();
+	private ArrayList<ArrayList<Integer>> colorArrayList = new ArrayList<ArrayList<Integer>>();
+	
+
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
 		stopFlag=false;
@@ -54,6 +64,7 @@ public class Simulator extends Thread {
 		
 		
 		//Default rule : Survive always, birth never
+		
 		for(int i =0; i<9; i++) {
 			fieldSurviveValues.add(i);
 		}
@@ -438,35 +449,58 @@ public class Simulator extends Thread {
 		return null;
 	}
 
-	public void loadRule(ArrayList<String> lines) {
-		if(lines.size()<=0) {
-			System.out.println("empty rule file");
-			return;
-		}
-		//TODO-INPROGRESS : remove previous rule (=emptying lists)
-		fieldSurviveValues = new ArrayList<Integer>();
-		fieldBirthValues = new ArrayList<Integer>();
-		
-		String surviveLine = lines.get(0);
-		String birthLine = lines.get(1);
-		
-		String[] surviveElements = surviveLine.split(";");
-		for(int x=0; x<surviveElements.length;x++) {
-			String elem = surviveElements[x];
-			int value = Integer.parseInt(elem);
-			//TODO-INPROGRESS : add value to possible survive values
-			fieldSurviveValues.add(value);
-			
-		}
-
-		String[] birthElements = birthLine.split(";");
-		for(int x=0; x<birthElements.length;x++) {
-			String elem = birthElements[x];
-			int value = Integer.parseInt(elem);
-			//TODO-INPROGRESS : add value to possible birth values
-			fieldBirthValues.add(value);
-		}
+	@SuppressWarnings("unchecked")
+	public void loadRule(JSONArray cellList) {
+		ruleArrayList.clear();
+		colorArrayList.clear();
+		cellList.forEach( cell -> parseCellObject( (JSONObject) cell ) );
 	}
+
+	@SuppressWarnings("unchecked")
+	private void parseCellObject(JSONObject cell) {
+        //Get cell object within list
+        JSONObject cellObject = (JSONObject) cell.get("cell");
+        
+		//Get value
+        String cellValueString = String.valueOf((Long)cellObject.get("value")); 
+		int cellValue = Integer.valueOf(cellValueString);
+		System.out.println("cell value rule loaded: "+cellValue);
+
+		//Get color
+		JSONArray colorValueJsonArray = (JSONArray) cellObject.get("color"); 
+		ArrayList<Integer> rgbList = new ArrayList<Integer>();
+		colorValueJsonArray.forEach(value -> rgbList.add(Integer.valueOf(String.valueOf((Long)value))));
+
+		//Get Condition Count Near
+		JSONArray countNearJsonArray = (JSONArray) cellObject.get("color"); 
+		ArrayList<Integer> conditionCountNearList = new ArrayList<Integer>();
+		countNearJsonArray.forEach(value -> conditionCountNearList.add(Integer.valueOf(String.valueOf((Long)value))));
+
+		//Get Condition highest near
+		JSONArray conditionHighestNearJsonArray = (JSONArray) cellObject.get("color"); 
+		ArrayList<Integer> conditionHighestNearList = new ArrayList<Integer>();
+		conditionHighestNearJsonArray.forEach(value -> conditionHighestNearList.add(Integer.valueOf(String.valueOf((Long)value))));
+
+		//Get ifValue
+        String ifValueString = String.valueOf((Long)cellObject.get("value")); 
+		int ifValue = Integer.valueOf(ifValueString);
+
+		//Get elseValue
+        String elseValueString = String.valueOf((Long)cellObject.get("value")); 
+		int elseValue = Integer.valueOf(elseValueString);
+
+		while (cellValue > colorArrayList.size()) {
+			colorArrayList.add(new ArrayList<Integer>());
+		}
+		colorArrayList.add(cellValue,rgbList);
+		Rule newRule = new Rule(cellValue, rgbList, conditionCountNearList, conditionHighestNearList, ifValue, elseValue);
+
+		while (cellValue > ruleArrayList.size()) {
+			ruleArrayList.add(newRule);
+		}
+		ruleArrayList.add(cellValue,newRule);
+
+    }
 
 	public void applyRule(){
 		Table tempTable = new Table(this.height, this.width, this);
