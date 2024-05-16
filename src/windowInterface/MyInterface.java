@@ -19,11 +19,21 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+
+//added imports for loading jsons
+import java.io.FileReader; 
+import java.util.Iterator; 
+import java.util.Map; 
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*; 
+
 
 public class MyInterface extends JFrame {
 
@@ -300,17 +310,31 @@ public class MyInterface extends JFrame {
 		ArrayList<String> stringArray = new ArrayList<String>();
 		if (fileName.length()>0) {
 			try {
-				BufferedReader fileContent = new BufferedReader(new FileReader(fileName));
-				String line = fileContent.readLine();
-				while (line != null) {
-					stringArray.add(line);
-					line = fileContent.readLine();
+				//TODO-INPROGRESS load json
+				JSONParser jsonParser = new JSONParser();
+				try (FileReader reader = new FileReader(fileName))
+				{
+					//Read JSON file
+					Object obj = jsonParser.parse(reader);
+		
+					JSONArray cellList = (JSONArray) obj;
+					//System.out.println(cellList);
+					mySimu.loadRule(cellList);
+					//Iterate over employee array
+					//cellList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+		
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
-				fileContent.close();
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			mySimu.loadRule(stringArray);
+			
 			this.repaint();
 		}
 	}
