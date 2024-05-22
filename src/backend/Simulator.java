@@ -521,11 +521,13 @@ public class Simulator extends Thread {
 				int valueHighestNear = table.highestNear(x,y);
 				if (		ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() ==0 && 
 							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() ==0) {
+					//both conditions lists are empty, directly take if value
 					tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
 
 				
 				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() !=0 && 
 							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() == 0) {
+					//only countnear condition
 					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().contains(valueCountNear)){
 						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
 					}else{
@@ -534,15 +536,20 @@ public class Simulator extends Thread {
 
 				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() ==0 && 
 							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() != 0) {
+					//only highest near condition
 					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().contains(valueHighestNear)){
 						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
 					}else{
 						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getElseValue());
 					}
 
-				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear() !=null && 
-							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear() != null) {
+				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() !=0 && 
+							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() != 0) {
+					//both conditions
+					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().contains(valueHighestNear)
+						&& ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().contains(valueCountNear)){
 
+					}
 				}
 				
 				//DEBUG:
