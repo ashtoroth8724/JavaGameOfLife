@@ -1,0 +1,48 @@
+[{"cell": {
+    "value" :   5,
+    "color" : [255,255,255],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [],
+    "ifValue" : 4,
+    "elseValue" : 4
+}},
+{"cell": {
+    "value" :   4,
+    "color" : [204,204,204],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [],
+    "ifValue" : 3,
+    "elseValue" : 3
+}},
+{"cell": {
+    "value" :   3,
+    "color" : [153,153,153],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [],
+    "ifValue" : 2,
+    "elseValue" : 2
+}},
+{"cell": {
+    "value" :   2,
+    "color" : [102,102,102],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [],
+    "ifValue" : 1,
+    "elseValue" : 1
+}},
+{"cell": {
+    "value" :   1,
+    "color" : [51,51,51],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [],
+    "ifValue" : 0,
+    "elseValue" : 0
+}},
+{"cell": {
+    "value" :   0,
+    "color" : [0,0,0],
+    "conditionCountNear" : [],
+    "conditionHighestNear" : [5],
+    "ifValue" : 5,
+    "elseValue" : 0
+}}]

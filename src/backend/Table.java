@@ -88,6 +88,40 @@ public class Table {
     
         return count;
     }
+
+    public int highestNear(int row, int column) {
+        int highest = Integer.MIN_VALUE; // Initialize to the minimum integer value
+        boolean loopingBorder = isLoopingBorder();
+    
+        // Define the relative positions of neighboring cells (assuming 8 neighbors)
+        int[][] neighbors = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1},          {0, 1},
+            {1, -1},  {1, 0},  {1, 1}
+        };
+        
+        for (int[] neighbor : neighbors) {
+            int x = row + neighbor[0];
+            int y = column + neighbor[1];
+    
+            if (loopingBorder) {
+                x = (x + width) % width;
+                y = (y + height) % height;
+            } else {
+                if (x < 0 || x >= width || y < 0 || y >= height) {
+                    // Border cell is outside the grid
+                    continue;
+                }
+            }
+    
+            int cellValue = this.getCell(x, y).getValue();
+            if (cellValue > highest) {
+                highest = cellValue;
+            }
+        }
+    
+        return highest;
+    }
     
     
     //TODO : set agent (x y agent) load an agent to coordinates x,y

@@ -1,5 +1,16 @@
 package backend;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+//import for json
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import windowInterface.MyInterface;
 
@@ -33,6 +44,11 @@ public class Simulator extends Thread {
 	private Table table;
 	private boolean cellDensityToggle;
 
+	//Rules Arraylists
+	private ArrayList<Rule> ruleArrayList = new ArrayList<Rule>();
+	private ArrayList<ArrayList<Integer>> colorArrayList = new ArrayList<ArrayList<Integer>>();
+	
+
 	public Simulator(MyInterface mjfParam) {
 		mjf = mjfParam;
 		stopFlag=false;
@@ -50,14 +66,12 @@ public class Simulator extends Thread {
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
 		table = new Table(height, width, this);
-		cellDensityToggle=false;
+		cellDensityToggle=true;
 
 		
 		
 		//Default rule : Survive always, birth never
-		for(int i =0; i<9; i++) {
-			fieldSurviveValues.add(i);
-		}
+		loadRule("OOP_F1_Project\\conwayRule.json");
 		
 	}
 
@@ -69,6 +83,9 @@ public class Simulator extends Thread {
 	public int getHeight() {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
+	}
+	public ArrayList<ArrayList<Integer>> getColorArrayList() {
+		return colorArrayList;
 	}
 
 	//Should probably stay as is
@@ -117,7 +134,7 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		// TODO-INPROGRESS : apply game rule to all cells of the field
+		//TODO-INPROGRESS : apply game rule to all cells of the field
 		this.applyRule();
 
 
@@ -170,20 +187,10 @@ public class Simulator extends Thread {
 			int currentCellValue = getCell(x, y);
 			int newCellValue = 0;
 			if(cellDensityToggle) {
-				if (currentCellValue == -1) {
-					newCellValue = 0;
-				}
-				if (currentCellValue == 0) {
-					newCellValue = 1;
-				} 
-				if (currentCellValue == 1) {
-					newCellValue = 2;
-				}
-				if (currentCellValue == 2) {
-					newCellValue = 3;
-				} 
-				if (currentCellValue == 3) {
-					newCellValue = -1;
+				if (currentCellValue <6) {
+					newCellValue = currentCellValue +1;
+				} else {
+					newCellValue=-1;
 				}
 			} else {
 				if (currentCellValue == 0) {
@@ -374,62 +381,119 @@ public class Simulator extends Thread {
 		return null;
 	}
 
-	public void loadRule(ArrayList<String> lines) {
-		if(lines.size()<=0) {
-			System.out.println("empty rule file");
-			return;
-		}
-		//TODO-INPROGRESS : remove previous rule (=emptying lists)
-		fieldSurviveValues = new ArrayList<Integer>();
-		fieldBirthValues = new ArrayList<Integer>();
-		
-		String surviveLine = lines.get(0);
-		String birthLine = lines.get(1);
-		
-		String[] surviveElements = surviveLine.split(";");
-		for(int x=0; x<surviveElements.length;x++) {
-			String elem = surviveElements[x];
-			int value = Integer.parseInt(elem);
-			//TODO-INPROGRESS : add value to possible survive values
-			fieldSurviveValues.add(value);
-			
-		}
+	@SuppressWarnings("unchecked")
+	public void loadRule(String fileName) {
+		System.out.println(fileName);
+		//TODO-INPROGRESS load json
+		JSONParser jsonParser = new JSONParser();
+		try (FileReader reader = new FileReader(fileName))
+		{
+			//Read JSON file
+			Object obj = jsonParser.parse(reader);
 
-		String[] birthElements = birthLine.split(";");
-		for(int x=0; x<birthElements.length;x++) {
-			String elem = birthElements[x];
-			int value = Integer.parseInt(elem);
-			//TODO-INPROGRESS : add value to possible birth values
-			fieldBirthValues.add(value);
+			JSONArray cellList = (JSONArray) obj;
+			ruleArrayList.clear();
+			colorArrayList.clear();
+			cellList.forEach( cell -> parseCellObject( (JSONObject) cell ) );
+					
+		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
+		//DEBUG
+		//printRules(ruleArrayList);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void parseCellObject(JSONObject cell) {
+		// Get cell object within list
+		JSONObject cellObject = (JSONObject) cell.get("cell");
+		
+		// Get value
+		int cellValue = ((Long) cellObject.get("value")).intValue();
+		System.out.println("cell value rule loaded: " + cellValue);
+	
+		// Get color
+		JSONArray colorValueJsonArray = (JSONArray) cellObject.get("color");
+		ArrayList<Integer> rgbList = new ArrayList<>();
+		colorValueJsonArray.forEach(value -> rgbList.add(((Long) value).intValue()));
+	
+		// Get Condition Count Near
+		JSONArray countNearJsonArray = (JSONArray) cellObject.get("conditionCountNear");
+		ArrayList<Integer> conditionCountNearList = new ArrayList<>();
+		countNearJsonArray.forEach(value -> conditionCountNearList.add(((Long) value).intValue()));
+	
+		// Get Condition Highest Near
+		JSONArray conditionHighestNearJsonArray = (JSONArray) cellObject.get("conditionHighestNear");
+		ArrayList<Integer> conditionHighestNearList = new ArrayList<>();
+		conditionHighestNearJsonArray.forEach(value -> conditionHighestNearList.add(((Long) value).intValue()));
+	
+		// Get ifValue
+		int ifValue = ((Long) cellObject.get("ifValue")).intValue();
+	
+		// Get elseValue
+		int elseValue = ((Long) cellObject.get("elseValue")).intValue();
+	
+		// Ensure the colorArrayList is large enough
+		while (colorArrayList.size() <= cellValue) {
+			colorArrayList.add(new ArrayList<>());
+		}
+		colorArrayList.set(cellValue, rgbList);
+	
+		// Ensure the ruleArrayList is large enough
+		while (ruleArrayList.size() <= cellValue) {
+			ruleArrayList.add(null);
+		}
+		ruleArrayList.set(cellValue, new Rule(cellValue, rgbList, conditionCountNearList, conditionHighestNearList, ifValue, elseValue));
 	}
 
 	public void applyRule(){
 		Table tempTable = new Table(this.height, this.width, this);
-		for(int x=0; x<width; x++) {
-			for(int y=0; y<height; y++) {
-				int resultCountNear = this.table.countNear(x, y);
-				if (this.getCell(x,y)==1) {
-					if (this.fieldSurviveValues.contains(resultCountNear)) {
-						tempTable.getCell(x, y).setValue(1);
-					} else {
-						tempTable.getCell(x, y).setValue(0);
-					}
-				} 
-				else if(this.getCell(x,y)==0) {
-					if (this.fieldBirthValues.contains(resultCountNear)) {
-						tempTable.getCell(x, y).setValue(1);
-					} else {
-						tempTable.getCell(x, y).setValue(0);
-					}
-				}
-				//DEBUG:
-				//System.out.println("applying rule to cell: "+x+", "+y + " | countnear = " + resultCountNear + " | new cell value = " + this.getCell(x, y));
-				
+    for(int x = 0; x < width; x++) {
+        for(int y = 0; y < height; y++) {
+            int valueCountNear = table.countNear(x, y);
+            int valueHighestNear = table.highestNear(x, y);
+            int currentValue = table.getCell(x, y).getValue();
+            Rule currentRule = ruleArrayList.get(currentValue);
+            
+            if (currentRule.getConditionCountNear().isEmpty() && currentRule.getConditionHighestNear().isEmpty()) {
+                // Both condition lists are empty, directly take if value
+                tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+            } else if (!currentRule.getConditionCountNear().isEmpty() && currentRule.getConditionHighestNear().isEmpty()) {
+                // Only countNear condition
+                if (currentRule.getConditionCountNear().contains(valueCountNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            } else if (currentRule.getConditionCountNear().isEmpty() && !currentRule.getConditionHighestNear().isEmpty()) {
+                // Only highestNear condition
+                if (currentRule.getConditionHighestNear().contains(valueHighestNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            } else if (!currentRule.getConditionCountNear().isEmpty() && !currentRule.getConditionHighestNear().isEmpty()) {
+                // Both conditions
+                if (currentRule.getConditionHighestNear().contains(valueHighestNear)
+                        && currentRule.getConditionCountNear().contains(valueCountNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            }
 
-			}
-		}
-		this.table = tempTable;
+            // DEBUG:
+            //System.out.println("Applying rule to cell: " + x + ", " + y +" | countNear = " + valueCountNear +" | highestNear = " + valueHighestNear +" | current cell value = " + currentValue +" | new cell value = " + tempTable.getCell(x, y).getValue());
+        }
+    }
+    this.table = tempTable;
+    //DEBUG
+	//table.serialPrint();
 	}
 	
 	
@@ -456,6 +520,23 @@ public class Simulator extends Thread {
 		else {
 			return "sheep";
 		}
+	}
+
+
+	//debug print the list of rules
+	public void printRules(ArrayList<Rule> ruleArrayList) {
+		System.out.println("-----------------------------------");
+		System.out.println("Rule list size: "+ruleArrayList.size());
+		System.out.println("-----------------------------------");
+        for (Rule rule : ruleArrayList) {
+            System.out.println("Rule for value: " + rule.getValue());
+            System.out.println("Color: " + rule.getColor());
+            System.out.println("Condition Count Near: " + rule.getConditionCountNear());
+            System.out.println("Condition Highest Near: " + rule.getConditionHighestNear());
+            System.out.println("If Value: " + rule.getIfValue());
+            System.out.println("Else Value: " + rule.getElseValue());
+            System.out.println("-----------------------------------");
+        }
 	}
 
 }
