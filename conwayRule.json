@@ -1,6 +1,6 @@
 [{"cell": {
     "value" :   1,
-    "color" : [255,255,255],
+    "color" : [167,237,139],
     "conditionCountNear" : [2,3],
     "conditionHighestNear" : [],
     "ifValue" : 1,
@@ -8,7 +8,7 @@
 }},
 {"cell": {
     "value" :   0,
-    "color" : [102,0,0],
+    "color" : [37,52,31],
     "conditionCountNear" : [3],
     "conditionHighestNear" : [],
     "ifValue" : 1,

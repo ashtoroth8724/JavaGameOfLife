@@ -83,7 +83,10 @@ public class Simulator extends Thread {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
 	}
-	
+	public ArrayList<ArrayList<Integer>> getColorArrayList() {
+		return colorArrayList;
+	}
+
 	//Should probably stay as is
 	public void run() {
 		int stepCount=0;
@@ -130,7 +133,7 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		// TODO-INPROGRESS : apply game rule to all cells of the field
+		//TODO-INPROGRESS : apply game rule to all cells of the field
 		this.applyRule();
 
 
@@ -585,6 +588,9 @@ public class Simulator extends Thread {
 
 
 
+
+
+	//debug print the list of rules
 	public void printRules(ArrayList<Rule> ruleArrayList) {
 		System.out.println("-----------------------------------");
 		System.out.println("Rule list size: "+ruleArrayList.size());
@@ -600,23 +606,4 @@ public class Simulator extends Thread {
         }
 	}
 
-
-
-	public void printRules(ArrayList<Rule> ruleArrayList) {
-		System.out.println("-----------------------------------");
-		System.out.println("Rule list size: "+ruleArrayList.size());
-		System.out.println("-----------------------------------");
-        for (Rule rule : ruleArrayList) {
-            System.out.println("Rule for value: " + rule.getValue());
-            System.out.println("Color: " + rule.getColor());
-            System.out.println("Condition Count Near: " + rule.getConditionCountNear());
-            System.out.println("Condition Highest Near: " + rule.getConditionHighestNear());
-            System.out.println("If Value: " + rule.getIfValue());
-            System.out.println("Else Value: " + rule.getElseValue());
-            System.out.println("-----------------------------------");
-        }
-	}
-
-    
-	
 }
