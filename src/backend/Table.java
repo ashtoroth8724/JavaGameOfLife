@@ -89,16 +89,17 @@ public class Table {
         return count;
     }
 
-    public int highestNear(int row, int column){
-        int highest = 0;
+    public int highestNear(int row, int column) {
+        int highest = Integer.MIN_VALUE; // Initialize to the minimum integer value
         boolean loopingBorder = isLoopingBorder();
+    
         // Define the relative positions of neighboring cells (assuming 8 neighbors)
         int[][] neighbors = {
             {-1, -1}, {-1, 0}, {-1, 1},
             {0, -1},          {0, 1},
             {1, -1},  {1, 0},  {1, 1}
         };
-    
+        
         for (int[] neighbor : neighbors) {
             int x = row + neighbor[0];
             int y = column + neighbor[1];
@@ -106,15 +107,16 @@ public class Table {
             if (loopingBorder) {
                 x = (x + width) % width;
                 y = (y + height) % height;
-            } 
-            else {
+            } else {
                 if (x < 0 || x >= width || y < 0 || y >= height) {
-                    // Border cell is dead
+                    // Border cell is outside the grid
                     continue;
                 }
             }
-            if (highest < this.getCell(x, y).getValue()) {
-                highest = this.getCell(x, y).getValue();
+    
+            int cellValue = this.getCell(x, y).getValue();
+            if (cellValue > highest) {
+                highest = cellValue;
             }
         }
     

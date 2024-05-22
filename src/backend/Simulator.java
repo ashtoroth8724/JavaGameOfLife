@@ -18,8 +18,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 10;
-	private final int LINE_NUM = 10;
+	private final int COL_NUM = 100;
+	private final int LINE_NUM = 100;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -382,120 +382,115 @@ public class Simulator extends Thread {
 	public void loadRule(String fileName) {
 		System.out.println(fileName);
 		//TODO-INPROGRESS load json
-				JSONParser jsonParser = new JSONParser();
-				try (FileReader reader = new FileReader(fileName))
-				{
-					//Read JSON file
-					Object obj = jsonParser.parse(reader);
-		
-					JSONArray cellList = (JSONArray) obj;
-					ruleArrayList.clear();
-					colorArrayList.clear();
-					cellList.forEach( cell -> parseCellObject( (JSONObject) cell ) );
+		JSONParser jsonParser = new JSONParser();
+		try (FileReader reader = new FileReader(fileName))
+		{
+			//Read JSON file
+			Object obj = jsonParser.parse(reader);
+
+			JSONArray cellList = (JSONArray) obj;
+			ruleArrayList.clear();
+			colorArrayList.clear();
+			cellList.forEach( cell -> parseCellObject( (JSONObject) cell ) );
 					
 		
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		//DEBUG
+		//printRules(ruleArrayList);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void parseCellObject(JSONObject cell) {
-        //Get cell object within list
-        JSONObject cellObject = (JSONObject) cell.get("cell");
-        
-		//Get value
-        String cellValueString = String.valueOf((Long)cellObject.get("value")); 
-		int cellValue = Integer.valueOf(cellValueString);
-		System.out.println("cell value rule loaded: "+cellValue);
-
-		//Get color
-		JSONArray colorValueJsonArray = (JSONArray) cellObject.get("color"); 
-		ArrayList<Integer> rgbList = new ArrayList<Integer>();
-		colorValueJsonArray.forEach(value -> rgbList.add(Integer.valueOf(String.valueOf((Long)value))));
-
-		//Get Condition Count Near
-		JSONArray countNearJsonArray = (JSONArray) cellObject.get("conditionCountNear"); 
-		ArrayList<Integer> conditionCountNearList = new ArrayList<Integer>();
-		countNearJsonArray.forEach(value -> conditionCountNearList.add(Integer.valueOf(String.valueOf((Long)value))));
-
-		//Get Condition highest near
-		JSONArray conditionHighestNearJsonArray = (JSONArray) cellObject.get("conditionHighestNear"); 
-		ArrayList<Integer> conditionHighestNearList = new ArrayList<Integer>();
-		conditionHighestNearJsonArray.forEach(value -> conditionHighestNearList.add(Integer.valueOf(String.valueOf((Long)value))));
-
-		//Get ifValue
-        String ifValueString = String.valueOf((Long)cellObject.get("ifValue")); 
-		int ifValue = Integer.valueOf(ifValueString);
-
-		//Get elseValue
-        String elseValueString = String.valueOf((Long)cellObject.get("elseValue")); 
-		int elseValue = Integer.valueOf(elseValueString);
-
-		while (cellValue > colorArrayList.size()) {
-			colorArrayList.add(new ArrayList<Integer>());
+		// Get cell object within list
+		JSONObject cellObject = (JSONObject) cell.get("cell");
+		
+		// Get value
+		int cellValue = ((Long) cellObject.get("value")).intValue();
+		System.out.println("cell value rule loaded: " + cellValue);
+	
+		// Get color
+		JSONArray colorValueJsonArray = (JSONArray) cellObject.get("color");
+		ArrayList<Integer> rgbList = new ArrayList<>();
+		colorValueJsonArray.forEach(value -> rgbList.add(((Long) value).intValue()));
+	
+		// Get Condition Count Near
+		JSONArray countNearJsonArray = (JSONArray) cellObject.get("conditionCountNear");
+		ArrayList<Integer> conditionCountNearList = new ArrayList<>();
+		countNearJsonArray.forEach(value -> conditionCountNearList.add(((Long) value).intValue()));
+	
+		// Get Condition Highest Near
+		JSONArray conditionHighestNearJsonArray = (JSONArray) cellObject.get("conditionHighestNear");
+		ArrayList<Integer> conditionHighestNearList = new ArrayList<>();
+		conditionHighestNearJsonArray.forEach(value -> conditionHighestNearList.add(((Long) value).intValue()));
+	
+		// Get ifValue
+		int ifValue = ((Long) cellObject.get("ifValue")).intValue();
+	
+		// Get elseValue
+		int elseValue = ((Long) cellObject.get("elseValue")).intValue();
+	
+		// Ensure the colorArrayList is large enough
+		while (colorArrayList.size() <= cellValue) {
+			colorArrayList.add(new ArrayList<>());
 		}
-		colorArrayList.add(cellValue,rgbList);
-		Rule newRule = new Rule(cellValue, rgbList, conditionCountNearList, conditionHighestNearList, ifValue, elseValue);
-
-		while (cellValue > ruleArrayList.size()) {
-			ruleArrayList.add(newRule);
+		colorArrayList.set(cellValue, rgbList);
+	
+		// Ensure the ruleArrayList is large enough
+		while (ruleArrayList.size() <= cellValue) {
+			ruleArrayList.add(null);
 		}
-		ruleArrayList.add(cellValue,newRule);
-
-    }
+		ruleArrayList.set(cellValue, new Rule(cellValue, rgbList, conditionCountNearList, conditionHighestNearList, ifValue, elseValue));
+	}
 
 	public void applyRule(){
 		Table tempTable = new Table(this.height, this.width, this);
-		for(int x=0; x<width; x++) {
-			for(int y=0; y<height; y++) {
-				int valueCountNear = table.countNear(x, y);
-				int valueHighestNear = table.highestNear(x,y);
-				if (		ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() ==0 && 
-							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() ==0) {
-					//both conditions lists are empty, directly take if value
-					tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
+    for(int x = 0; x < width; x++) {
+        for(int y = 0; y < height; y++) {
+            int valueCountNear = table.countNear(x, y);
+            int valueHighestNear = table.highestNear(x, y);
+            int currentValue = table.getCell(x, y).getValue();
+            Rule currentRule = ruleArrayList.get(currentValue);
+            
+            if (currentRule.getConditionCountNear().isEmpty() && currentRule.getConditionHighestNear().isEmpty()) {
+                // Both condition lists are empty, directly take if value
+                tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+            } else if (!currentRule.getConditionCountNear().isEmpty() && currentRule.getConditionHighestNear().isEmpty()) {
+                // Only countNear condition
+                if (currentRule.getConditionCountNear().contains(valueCountNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            } else if (currentRule.getConditionCountNear().isEmpty() && !currentRule.getConditionHighestNear().isEmpty()) {
+                // Only highestNear condition
+                if (currentRule.getConditionHighestNear().contains(valueHighestNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            } else if (!currentRule.getConditionCountNear().isEmpty() && !currentRule.getConditionHighestNear().isEmpty()) {
+                // Both conditions
+                if (currentRule.getConditionHighestNear().contains(valueHighestNear)
+                        && currentRule.getConditionCountNear().contains(valueCountNear)) {
+                    tempTable.getCell(x, y).setValue(currentRule.getIfValue());
+                } else {
+                    tempTable.getCell(x, y).setValue(currentRule.getElseValue());
+                }
+            }
 
-				
-				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() !=0 && 
-							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() == 0) {
-					//only countnear condition
-					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().contains(valueCountNear)){
-						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
-					}else{
-						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getElseValue());
-					}
-
-				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() ==0 && 
-							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() != 0) {
-					//only highest near condition
-					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().contains(valueHighestNear)){
-						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getIfValue());
-					}else{
-						tempTable.getCell(x, y).setValue(ruleArrayList.get(table.getCell(x, y).getValue()).getElseValue());
-					}
-
-				} else if (	ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().size() !=0 && 
-							ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().size() != 0) {
-					//both conditions
-					if (ruleArrayList.get(table.getCell(x, y).getValue()).getConditionHighestNear().contains(valueHighestNear)
-						&& ruleArrayList.get(table.getCell(x, y).getValue()).getConditionCountNear().contains(valueCountNear)){
-
-					}
-				}
-				
-				//DEBUG:
-				//System.out.println("applying rule to cell: "+x+", "+y + " | countnear = " + valueCountNear + " | new cell value = " + tempTable.getCell(x,y).getValue());
-				
-
-			}
-		}
-		this.table = tempTable;
-		table.serialPrint();
+            // DEBUG:
+            //System.out.println("Applying rule to cell: " + x + ", " + y +" | countNear = " + valueCountNear +" | highestNear = " + valueHighestNear +" | current cell value = " + currentValue +" | new cell value = " + tempTable.getCell(x, y).getValue());
+        }
+    }
+    this.table = tempTable;
+    //DEBUG
+	//table.serialPrint();
 	}
 	
 	
@@ -522,6 +517,23 @@ public class Simulator extends Thread {
 		else {
 			return "sheep";
 		}
+	}
+
+
+
+	public void printRules(ArrayList<Rule> ruleArrayList) {
+		System.out.println("-----------------------------------");
+		System.out.println("Rule list size: "+ruleArrayList.size());
+		System.out.println("-----------------------------------");
+        for (Rule rule : ruleArrayList) {
+            System.out.println("Rule for value: " + rule.getValue());
+            System.out.println("Color: " + rule.getColor());
+            System.out.println("Condition Count Near: " + rule.getConditionCountNear());
+            System.out.println("Condition Highest Near: " + rule.getConditionHighestNear());
+            System.out.println("If Value: " + rule.getIfValue());
+            System.out.println("Else Value: " + rule.getElseValue());
+            System.out.println("-----------------------------------");
+        }
 	}
 
 }
