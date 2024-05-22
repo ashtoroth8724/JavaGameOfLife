@@ -84,6 +84,9 @@ public class Simulator extends Thread {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
 	}
+	public ArrayList<ArrayList<Integer>> getColorArrayList() {
+		return colorArrayList;
+	}
 
 	//Should probably stay as is
 	public void run() {
@@ -131,7 +134,7 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		// TODO-INPROGRESS : apply game rule to all cells of the field
+		//TODO-INPROGRESS : apply game rule to all cells of the field
 		this.applyRule();
 
 
@@ -520,7 +523,7 @@ public class Simulator extends Thread {
 	}
 
 
-
+	//debug print the list of rules
 	public void printRules(ArrayList<Rule> ruleArrayList) {
 		System.out.println("-----------------------------------");
 		System.out.println("Rule list size: "+ruleArrayList.size());
