@@ -23,6 +23,17 @@ public abstract class Agent {
 	public int getY() {
 		return y;
 	}
+//presence of an agent at those coordinates
+	public boolean agentPresence(int x, int y){
+
+		if (this.getX() == x && this.getY() == y) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public boolean isInArea(int x, int y, int radius) {
 		int diffX = this.x-x;
 		int diffY = this.y-y;

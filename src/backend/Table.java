@@ -90,7 +90,6 @@ public class Table {
     }
     
     
-    //TODO : set agent (x y agent) load an agent to coordinates x,y
 
     //TODO : set random (density) create a random table of determined density 
     public void setRandom(double density) {

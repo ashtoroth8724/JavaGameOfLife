@@ -3,7 +3,6 @@ package backend;
 public class Cell {
     private int value;
 
-
     public Cell(int value) {
 		this.value = value;
 	}
@@ -12,12 +11,7 @@ public class Cell {
 		return value;
 	}
 	
-	
-
 	public void setValue(int value) {
 		this.value = value;
 	}
-
-
-
 }

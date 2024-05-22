@@ -1,4 +1,5 @@
 package backend;
+import java.awt.Color;
 import java.util.ArrayList;
 
 import windowInterface.MyInterface;
@@ -448,7 +449,7 @@ public class Simulator extends Thread {
 	 * @return String representation of click action
 	 */
 	public String clickActionName() {
-		// TODO : initially return "sheep" or "cell"
+		// TODO-COMPLETE : initially return "sheep" or "cell"
 		// depending on clickActionFlag
 		if (clickActionFlag){
 			return "cell";
@@ -458,4 +459,47 @@ public class Simulator extends Thread {
 		}
 	}
 
+	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
+	public void setSheep(int x,int y){
+	Sheep sheep = new Sheep(x,y);
+	agents.add(sheep);
+	printAgents();
+	}
+
+//method for clickAgent first setup to spawn sheeps
+	public void clickAgent(int x, int y) {
+		if (clickActionFlag == false) {	
+			Sheep sheep = new Sheep(x,y);
+		
+			this.setSheep(x,y);
+			//process to check if there is already an agent (removes the agent if clicking on it)
+			//if (agentPresence(x,y) == true) {
+
+
+			//}
+
+
+			if (enableLogs) {
+				System.out.println("clickAgent Called, Agent spawned at coordinates:" + x + "," + y + "");
+			}
+			
+		
+		} 
+		else {
+			return;
+		}
+	}
+	public void printAgents() {
+        for (Agent agent : agents) {
+            String agentType = agent.getClass().getSimpleName();
+            int x = agent.getX();
+            int y = agent.getY();
+            Color color = agent.getDisplayColor();
+            
+            System.out.println("Agent Type: " + agentType);
+            System.out.println("Position: (" + x + ", " + y + ")");
+            System.out.println("Color: " + color);
+            System.out.println();
+        }
+    }
 }
