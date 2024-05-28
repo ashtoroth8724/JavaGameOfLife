@@ -8,8 +8,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 100;
-	private final int LINE_NUM = 100;
+	private final int COL_NUM = 10;
+	private final int LINE_NUM = 10;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -17,9 +17,7 @@ public class Simulator extends Thread {
 	private final int ANIMAL_AREA_RADIUS = 2;
 	private ArrayList<Integer> fieldSurviveValues;
 	private ArrayList<Integer> fieldBirthValues;
-	
 	private ArrayList<Agent> agents;
-	
 	private boolean stopFlag;
 	private boolean pauseFlag;
 	private boolean loopingBorder;
@@ -71,7 +69,10 @@ public class Simulator extends Thread {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
 	}
-
+	//we define the initial size of the arraylist as 1 in order to ease the code in the clickAgent part
+	public void StartingCap(int initialCapacity){
+		agents = new ArrayList<>(initialCapacity);
+	}
 	//Should probably stay as is
 	public void run() {
 		int stepCount=0;
@@ -199,11 +200,56 @@ public class Simulator extends Thread {
 			}
 			
 			this.setCell(x, y, newCellValue);
-		} else {
-			return;
+			
+			
+		} 
+		else {
+			int radius = 1;
+			Agent agent = new Sheep(x,y);
+			
+			if(agent.isInArea(x,y,radius)){
+				System.out.println("true");
+				for(int i=0;i<=agents.size();i++){
+					if (agents.get(i) instanceof Sheep){
+						agents.remove(i);
+					}
+					else{
+						setSheep(x,y);
+					}
+				}
+			}
+			
+			
+			if (enableLogs) {
+				System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+			}
 		}
 	}
 	
+	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
+	public void setSheep(int x,int y){
+
+		Sheep sheep =  new Sheep(x,y);
+		
+		agents.add(sheep);
+	}
+
+
+
+	public void printAgents() {
+        for (Agent Agent : agents) {
+            String agentType = Agent.getClass().getSimpleName();
+            int x = Agent.getX();
+            int y = Agent.getY();
+            Color color = Agent.getDisplayColor();
+            
+            System.out.println("Agent Type: " + agentType);
+            System.out.println("Position: (" + x + ", " + y + ")");
+            System.out.println("Color: " + color);
+            System.out.println();
+        }
+		
+	}
 	/**
 	 * get cell value in simulated world
 	 * @param x coordinate of cell
@@ -459,47 +505,6 @@ public class Simulator extends Thread {
 		}
 	}
 
-	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
-	public void setSheep(int x,int y){
-	Sheep sheep = new Sheep(x,y);
-	agents.add(sheep);
-	printAgents();
-	}
-
-//method for clickAgent first setup to spawn sheeps
-	public void clickAgent(int x, int y) {
-		if (clickActionFlag == false) {	
-			Sheep sheep = new Sheep(x,y);
-		
-			this.setSheep(x,y);
-			//process to check if there is already an agent (removes the agent if clicking on it)
-			//if (agentPresence(x,y) == true) {
-
-
-			//}
-
-
-			if (enableLogs) {
-				System.out.println("clickAgent Called, Agent spawned at coordinates:" + x + "," + y + "");
-			}
-			
-		
-		} 
-		else {
-			return;
-		}
-	}
-	public void printAgents() {
-        for (Agent agent : agents) {
-            String agentType = agent.getClass().getSimpleName();
-            int x = agent.getX();
-            int y = agent.getY();
-            Color color = agent.getDisplayColor();
-            
-            System.out.println("Agent Type: " + agentType);
-            System.out.println("Position: (" + x + ", " + y + ")");
-            System.out.println("Color: " + color);
-            System.out.println();
-        }
-    }
+    
+	
 }

@@ -33,7 +33,7 @@ public abstract class Agent {
 			return false;
 		}
 	}
-
+//presenec of an agent in an area
 	public boolean isInArea(int x, int y, int radius) {
 		int diffX = this.x-x;
 		int diffY = this.y-y;

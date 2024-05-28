@@ -24,6 +24,8 @@ public class Sheep extends Agent {
 		rand = new Random();
 	}
 
+
+
 	/**
 	 * action of the animal
 	 * it can interact with the cells or with other animals
