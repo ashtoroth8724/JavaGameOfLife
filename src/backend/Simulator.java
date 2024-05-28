@@ -23,7 +23,7 @@ public class Simulator extends Thread {
 	private boolean loopingBorder;
 	private boolean clickActionFlag;
 	private int loopDelay = 150;
-
+	
 	//TODO : add missing attribute(s)
 	private double randomDansitySlider = 0.5;
 	private int width;
@@ -71,7 +71,14 @@ public class Simulator extends Thread {
 	}
 	//we define the initial size of the arraylist as 1 in order to ease the code in the clickAgent part
 	public void StartingCap(int initialCapacity){
+		// Initial capacity of the agent arraylist
+		initialCapacity = COL_NUM*LINE_NUM;
 		agents = new ArrayList<>(initialCapacity);
+		//we fill it with null values
+		for (int i = 0; i <= agents.size(); i++) {
+            agents.add(i,NullAgent.NullAgent); 
+		}
+		System.out.println(agents);
 	}
 	//Should probably stay as is
 	public void run() {
@@ -206,15 +213,17 @@ public class Simulator extends Thread {
 		else {
 			int radius = 1;
 			Agent agent = new Sheep(x,y);
-			
+			System.out.println(agents);
 			if(agent.isInArea(x,y,radius)){
-				System.out.println("true");
+				
 				for(int i=0;i<=agents.size();i++){
 					if (agents.get(i) instanceof Sheep){
 						agents.remove(i);
+						System.out.println("Corresponding agent found, proceeding with removal");
 					}
 					else{
 						setSheep(x,y);
+						System.out.println("Corresponding agent not found, proceeding with creation");
 					}
 				}
 			}

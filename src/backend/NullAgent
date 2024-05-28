@@ -1,0 +1,14 @@
+package backend;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
+//null agent that signifies the absence of agents 
+public class NullAgent extends Agent {
+    
+    NullAgent(int x,int y){
+    super(x,y,Color.black);
+    }
+
+
+}
