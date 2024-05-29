@@ -85,6 +85,10 @@ public class Simulator extends Thread {
 		return this.height;
 	}
 
+	public ArrayList<ArrayList<Integer>> getColorArrayList(){
+		return colorArrayList;
+	}
+
 	//Should probably stay as is
 	public void run() {
 		int stepCount=0;
