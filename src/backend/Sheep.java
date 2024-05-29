@@ -12,6 +12,7 @@ public class Sheep extends Agent {
 	
 	int hunger;
 	Random rand;
+	Simulator simulator;
 	
 	Sheep(int x,int y){
 		//first we call the constructor of the superClass(Animal)
@@ -24,16 +25,24 @@ public class Sheep extends Agent {
 		rand = new Random();
 	}
 
-
+	boolean loopingBorder = simulator.isLoopingBorder();
+	int width = simulator.getWidth();
+	int height = simulator.getHeight();
 
 	/**
 	 * action of the animal
 	 * it can interact with the cells or with other animals
 	 * as you wish
 	 */
-	public boolean liveTurn(ArrayList<Agent> neighbors, Simulator world) {
-		if(world.getCell(x, y)==1) {
-			world.setCell(x, y, 0);
+	public boolean liveTurn(ArrayList<Agent> neighbors, Simulator word) {
+
+		//we check if the sheep is on the border of the world
+		//If loopingBorder == true, the world is a torus
+		//If loopingBorder == false, the world is a square and the sheep can't go out of the world
+
+		if(simulator.getCell(x, y)==1) {
+			simulator.setCell(x, y, 0);
+			hunger = hunger--;
 		} else {
 			hunger++;
 		}
@@ -42,6 +51,11 @@ public class Sheep extends Agent {
 	}
 
 	private void moveRandom() {
+		//check if the sheep is on the border of the world
+		//If loopingBorder == true, the world is a torus
+
+		
+
 		int direction = rand.nextInt(4);
 		if(direction == 0) {
 			x+=1;
