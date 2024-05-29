@@ -71,13 +71,6 @@ public class JPanelDraw extends JPanel {
 					} else {
 						g.setColor(Color.white);
 					}
-					if(cellContent == 2) {
-						g.setColor(Color.yellow); //set collor with rgb value (255,255,0)
-						//g.setColor(new Color(255,255,0));
-					}
-					if(cellContent == 3) {
-						g.setColor(Color.red);
-					}
 					g.fillRect(
 							(int) Math.round(x*cellWidth),
 							(int) Math.round(y*cellHeight), 
