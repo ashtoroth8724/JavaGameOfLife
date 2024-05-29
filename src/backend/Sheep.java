@@ -17,12 +17,14 @@ public class Sheep extends Agent {
 		//first we call the constructor of the superClass(Animal)
 		//with the values we want.
 		// here we decide that a Sheep is initially white using this constructor
-		super(x,y,Color.white);
+		super(x,y,Color.pink);
 		// we give our sheep a hunger value of zero at birth
 		hunger = 0;
 		//we initialize the random number generator we will use to move randomly
 		rand = new Random();
 	}
+
+
 
 	/**
 	 * action of the animal

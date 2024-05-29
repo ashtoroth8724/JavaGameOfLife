@@ -1,5 +1,6 @@
 
 package backend;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,8 +20,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 100;
-	private final int LINE_NUM = 100;
+	private final int COL_NUM = 10;
+	private final int LINE_NUM = 10;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -28,15 +29,13 @@ public class Simulator extends Thread {
 	private final int ANIMAL_AREA_RADIUS = 2;
 	private ArrayList<Integer> fieldSurviveValues;
 	private ArrayList<Integer> fieldBirthValues;
-	
 	private ArrayList<Agent> agents;
-	
 	private boolean stopFlag;
 	private boolean pauseFlag;
 	private boolean loopingBorder;
 	private boolean clickActionFlag;
 	private int loopDelay = 150;
-
+	
 	//TODO : add missing attribute(s)
 	private double randomDansitySlider = 0.5;
 	private int width;
@@ -84,9 +83,6 @@ public class Simulator extends Thread {
 	public int getHeight() {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
-	}
-	public ArrayList<ArrayList<Integer>> getColorArrayList() {
-		return colorArrayList;
 	}
 
 	//Should probably stay as is
@@ -206,11 +202,76 @@ public class Simulator extends Thread {
 			}
 			
 			this.setCell(x, y, newCellValue);
-		} else {
-			return;
+			
+			
+		} 
+		else {
+			int i=0;
+			Agent agent = new Sheep(x,y);
+			
+			//if there are no agents, skip directly to adding one
+			boolean removal =false;
+			if (agents.size()>0 ){
+				
+				//if an agent is in this area we iterate in the arraylist agents in order to find which one it is 
+				
+				for(i=0;i<=agents.size()-1;i++){
+					
+					//if we proceed to find the agent on the coordinates of the click, we remove it
+					
+					if (agents.get(i).getX() == x && agents.get(i).getY() == y ){
+						agents.remove(i);
+						System.out.println("Corresponding agent found, proceeding with removal");
+						System.out.println(agents.size());
+						removal = true;
+						
+					}
+					
+						
+					
+				}
+				if(i==agents.size() && removal ==false){
+					//if we find no corresponding agent after the for loop, we add one
+					System.out.println("no agents to remove, proceeding with creation");
+					setSheep(x, y);
+				}	
+				
+			}
+			else{
+				System.out.println("1st iteration");
+		
+				setSheep(x,y);
+			}
+			if (enableLogs) {
+				System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+			}
 		}
 	}
 	
+	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
+	public void setSheep(int x,int y){
+
+		Sheep sheep =  new Sheep(x,y);
+		
+		agents.add(sheep);
+	}
+
+
+
+	public void printAgents() {
+        for (Agent Agent : agents) {
+            String agentType = Agent.getClass().getSimpleName();
+            int x = Agent.getX();
+            int y = Agent.getY();
+            Color color = Agent.getDisplayColor();
+            
+            System.out.println("Agent Type: " + agentType);
+            System.out.println("Position: (" + x + ", " + y + ")");
+            System.out.println("Color: " + color);
+            System.out.println();
+        }
+		
+	}
 	/**
 	 * get cell value in simulated world
 	 * @param x coordinate of cell
@@ -513,7 +574,7 @@ public class Simulator extends Thread {
 	 * @return String representation of click action
 	 */
 	public String clickActionName() {
-		// TODO : initially return "sheep" or "cell"
+		// TODO-COMPLETE : initially return "sheep" or "cell"
 		// depending on clickActionFlag
 		if (clickActionFlag){
 			return "cell";
@@ -540,4 +601,6 @@ public class Simulator extends Thread {
         }
 	}
 
+    
+	
 }
