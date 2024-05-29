@@ -69,17 +69,7 @@ public class Simulator extends Thread {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
 	}
-	//we define the initial size of the arraylist as 1 in order to ease the code in the clickAgent part
-	public void StartingCap(int initialCapacity){
-		// Initial capacity of the agent arraylist
-		initialCapacity = COL_NUM*LINE_NUM;
-		agents = new ArrayList<>(initialCapacity);
-		//we fill it with null values
-		for (int i = 0; i <= agents.size(); i++) {
-            agents.add(i,NullAgent.NullAgent); 
-		}
-		System.out.println(agents);
-	}
+	
 	//Should probably stay as is
 	public void run() {
 		int stepCount=0;
@@ -211,24 +201,42 @@ public class Simulator extends Thread {
 			
 		} 
 		else {
-			int radius = 1;
+			int i=0;
 			Agent agent = new Sheep(x,y);
-			System.out.println(agents);
-			if(agent.isInArea(x,y,radius)){
+			
+			//if there are no agents, skip directly to adding one
+			boolean removal =false;
+			if (agents.size()>0 ){
 				
-				for(int i=0;i<=agents.size();i++){
-					if (agents.get(i) instanceof Sheep){
+				//if an agent is in this area we iterate in the arraylist agents in order to find which one it is 
+				
+				for(i=0;i<=agents.size()-1;i++){
+					
+					//if we proceed to find the agent on the coordinates of the click, we remove it
+					
+					if (agents.get(i).getX() == x && agents.get(i).getY() == y ){
 						agents.remove(i);
 						System.out.println("Corresponding agent found, proceeding with removal");
+						System.out.println(agents.size());
+						removal = true;
+						
 					}
-					else{
-						setSheep(x,y);
-						System.out.println("Corresponding agent not found, proceeding with creation");
-					}
+					
+						
+					
 				}
+				if(i==agents.size() && removal ==false){
+					//if we find no corresponding agent we add one
+					System.out.println("no agents to remove, proceeding with creation");
+					setSheep(x, y);
+				}	
+				
 			}
-			
-			
+			else{
+				System.out.println("1st iteration");
+		
+				setSheep(x,y);
+			}
 			if (enableLogs) {
 				System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
 			}
