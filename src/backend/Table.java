@@ -8,7 +8,7 @@ public class Table {
     private ArrayList<ArrayList<Cell>> table; 
     private Simulator simulator;
 
-    //TODO-INPROGRESS : create constructor
+    //TODO-COMPLETE : create constructor
     public Table(int height, int width, Simulator tempSimulator) {
         this.height = height;
         this.width = width;

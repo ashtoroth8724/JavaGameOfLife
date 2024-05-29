@@ -120,16 +120,18 @@ public class Simulator extends Thread {
 		// only modify if sure of what you do
 		// to modify agent behavior, see liveTurn method
 		// in agent classes
-		for(Agent agent : agents) {
+		/*for(Agent agent : agents) {
 			ArrayList<Agent> neighbors = 
-					this.getNeighboringAnimals(
-					agent.getX(), 
-					agent.getY(), 
-					ANIMAL_AREA_RADIUS);
-			if(!agent.liveTurn(
-					neighbors,
-					this)) {
+					this.getNeighboringAnimals(agent.getX(), agent.getY(), ANIMAL_AREA_RADIUS);
+			if(!agent.liveTurn(neighbors,this)) {
 				agents.remove(agent);
+			}
+		}*/
+
+		for(int i=0; i<agents.size(); i++){
+			ArrayList<Agent> neighbors = this.getNeighboringAnimals(agents.get(i).getX(), agents.get(i).getY(), ANIMAL_AREA_RADIUS);
+			if(!agents.get(i).liveTurn(neighbors,this)) {
+				agents.remove(i);
 			}
 		}
 		//then evolution of the field
