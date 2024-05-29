@@ -39,10 +39,14 @@ public class Sheep extends Agent {
 		}
 		this.moveRandom(world);
 		return hunger<10; //condition to be alive
+		//if the sheep can reproduce it creates a new sheep in agents
+		if(canReproduce(neighbors, world)) {
+			world.getArrayAgent().add(new Sheep(x, y));
+		}
 	}
 
 	private void moveRandom(Simulator world) {
-		//check is looping border is activated
+		//check if looping border is activated
 		if(world.isLoopingBorder()) {
 			//if looping border is activated we can move in any direction
 			x = (x+rand.nextInt(3)-1+world.getWidth())%world.getWidth();
@@ -52,5 +56,14 @@ public class Sheep extends Agent {
 			x = Math.max(0, Math.min(world.getWidth()-1, x+rand.nextInt(3)-1));
 			y = Math.max(0, Math.min(world.getHeight()-1, y+rand.nextInt(3)-1));
 		}
+	}
+	//sheep reproduce if two are on the same cell
+	public boolean canReproduce(ArrayList<Agent> neighbors, Simulator world) {
+		for(Agent a : neighbors) {
+			if(a instanceof Sheep && a.getX()==x && a.getY()==y) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
