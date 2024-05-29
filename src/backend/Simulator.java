@@ -4,21 +4,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-//import for json
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import java.util.List;
-import java.util.Scanner;
 
 //import for json
 import org.json.simple.JSONArray;
@@ -95,9 +81,6 @@ public class Simulator extends Thread {
 	public int getHeight() {
 		//TODO-COMPLETE : replace with proper return
 		return this.height;
-	}
-	public ArrayList<ArrayList<Integer>> getColorArrayList() {
-		return colorArrayList;
 	}
 
 	public ArrayList<ArrayList<Integer>> getColorArrayList(){
