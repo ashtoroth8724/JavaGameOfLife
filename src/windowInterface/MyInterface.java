@@ -210,6 +210,8 @@ public class MyInterface extends JFrame {
 		mySimu = new Simulator(this);
 		panelDraw.setSimu(mySimu);
 		panelDraw.repaint();
+		randSlider.setValue(50);
+		speedSlider.setValue(30);
 	}
 
 	public void setStepBanner(String s) {
