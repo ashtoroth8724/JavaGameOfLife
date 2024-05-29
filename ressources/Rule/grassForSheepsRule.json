@@ -1,0 +1,17 @@
+[{"cell": {
+    "value" :   1,
+    "color" : [0,102,0],
+    "conditionCountNear" : [3,4,5,6,7,8],
+    "conditionHighestNear" : [],
+    "ifValue" : 1,
+    "elseValue" : 0
+}},
+{"cell": {
+    "value" :   0,
+    "color" : [102,51,0],
+    "conditionCountNear" : [2,3,4,5,6,7,8],
+    "conditionHighestNear" : [],
+    "ifValue" : 1,
+    "elseValue" : 0
+}}
+]
