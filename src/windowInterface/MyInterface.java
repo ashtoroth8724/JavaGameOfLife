@@ -206,6 +206,7 @@ public class MyInterface extends JFrame {
 		clickLabel.setText("click : " + mySimu.clickActionName());
 	}
 	public void stopSimu() {
+		mySimu.togglePause();
 		mySimu = new Simulator(this);
 		panelDraw.setSimu(mySimu);
 		panelDraw.repaint();

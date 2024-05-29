@@ -20,8 +20,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 10;
-	private final int LINE_NUM = 10;
+	private final int COL_NUM = 100;
+	private final int LINE_NUM = 100;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
