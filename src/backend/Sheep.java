@@ -38,7 +38,7 @@ public class Sheep extends Agent {
 			hunger++;
 		}
 		this.moveRandom();
-		return hunger>10;
+		return hunger<10; //condition to be alive
 	}
 
 	private void moveRandom() {
