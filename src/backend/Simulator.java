@@ -70,7 +70,8 @@ public class Simulator extends Thread {
 		
 		
 		//Default rule : Survive always, birth never
-		loadRule("ressources/Rule/conwayRule.json");
+		//loadRule("ressources/Rule/conwayRule.json");
+		loadRule("OOP_F1_Project/ressources/Rule/conwayRule.json");
 		
 	}
 
@@ -393,9 +394,28 @@ public class Simulator extends Thread {
 	 * the simulated world in its present state
 	 */
 	public ArrayList<String> getSaveState() {
-		//TODO : complete method with proper return
-		return null;
+		ArrayList<String> saveState = new ArrayList<>();
+	
+		// Ensure height and width are properly initialized
+		int height = getHeight(); // Replace getHeight() with your method to get the height
+		int width = getWidth();   // Replace getWidth() with your method to get the width
+	
+		for (int y = 0; y < height; y++) {
+			StringBuilder lineBuilder = new StringBuilder();
+			for (int x = 0; x < width; x++) {
+				lineBuilder.append(getCell(x, y));
+				if (x < width - 1) {
+					lineBuilder.append(";");
+				}
+			}
+			saveState.add(lineBuilder.toString());
+		}
+		return saveState;
 	}
+	
+
+
+
 	/**
 	 * 
 	 * @param lines of file representing saved world state

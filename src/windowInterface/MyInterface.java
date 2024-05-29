@@ -351,12 +351,13 @@ public class MyInterface extends JFrame {
 
 	
 	public void clicSaveToFileButton() {
-		String fileName=SelectFile();
-		if (fileName.length()>0) {
+		String fileName = SelectFile();
+		if (fileName.length() > 0) {
 			ArrayList<String> content = mySimu.getSaveState();
-			writeFile(fileName, (String[]) content.toArray());
+			writeFile(fileName, content.toArray(new String[0]));
 		}
 	}
+	
 
 	public void clicSaveAgentsToFileButton() {
 		String fileName=SelectFile();
