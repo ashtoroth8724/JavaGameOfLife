@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 //import for json
 import org.json.simple.JSONArray;
@@ -226,29 +224,27 @@ public class Simulator extends Thread {
 					if (agents.get(i).getX() == x && agents.get(i).getY() == y ){
 						agents.remove(i);
 						System.out.println("Corresponding agent found, proceeding with removal");
-						System.out.println(agents.size());
 						removal = true;
 						
 					}
-					
-						
-					
 				}
 				if(i==agents.size() && removal ==false){
 					//if we find no corresponding agent after the for loop, we add one
 					System.out.println("no agents to remove, proceeding with creation");
 					setSheep(x, y);
+					if (enableLogs) {
+						System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+					}
 				}	
 				
 			}
-			else{
-				System.out.println("1st iteration");
-		
+			else{		
 				setSheep(x,y);
+				if (enableLogs) {
+					System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+				}
 			}
-			if (enableLogs) {
-				System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
-			}
+			
 		}
 	}
 	
@@ -589,6 +585,12 @@ public class Simulator extends Thread {
 	}
 
 
+
+
+
+
+
+
 	//debug print the list of rules
 	public void printRules(ArrayList<Rule> ruleArrayList) {
 		System.out.println("-----------------------------------");
@@ -605,6 +607,4 @@ public class Simulator extends Thread {
         }
 	}
 
-    
-	
 }

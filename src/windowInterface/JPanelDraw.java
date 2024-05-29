@@ -17,6 +17,7 @@ public class JPanelDraw extends JPanel {
 	private Simulator mySimu;
 	private MyInterface interfaceGlobal;
 	ArrayList<ArrayList<Integer>> colorArrayList;
+	ArrayList<ArrayList<Integer>> colorArrayList;
 
 	public JPanelDraw(MyInterface itf) {
 		super();
@@ -70,6 +71,13 @@ public class JPanelDraw extends JPanel {
 						g.setColor(new Color(red,green,blue));
 					} else {
 						g.setColor(Color.white);
+					}
+					if(cellContent == 2) {
+						g.setColor(Color.yellow); //set collor with rgb value (255,255,0)
+						//g.setColor(new Color(255,255,0));
+					}
+					if(cellContent == 3) {
+						g.setColor(Color.red);
 					}
 					g.fillRect(
 							(int) Math.round(x*cellWidth),
