@@ -16,6 +16,7 @@ public class JPanelDraw extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Simulator mySimu;
 	private MyInterface interfaceGlobal;
+	ArrayList<ArrayList<Integer>> colorArrayList;
 
 	public JPanelDraw(MyInterface itf) {
 		super();
@@ -37,6 +38,7 @@ public class JPanelDraw extends JPanel {
 	
 	public void setSimu(Simulator simu) {
 		mySimu = simu;
+		colorArrayList = mySimu.getColorArrayList();
 	}
 
 	@Override
@@ -61,18 +63,13 @@ public class JPanelDraw extends JPanel {
 					int cellContent = mySimu.getCell(x,y);
 					if(cellContent == -1) {
 						g.setColor(Color.gray);
-					}
-					if(cellContent == 0) {
-						continue;
-					}
-					if(cellContent == 1) {
+					} else if(cellContent<colorArrayList.size() && cellContent>=0) {
+						int red = colorArrayList.get(cellContent).get(0);
+						int green = colorArrayList.get(cellContent).get(1);
+						int blue = colorArrayList.get(cellContent).get(2);
+						g.setColor(new Color(red,green,blue));
+					} else {
 						g.setColor(Color.white);
-					}
-					if(cellContent == 2) {
-						g.setColor(Color.yellow);
-					}
-					if(cellContent == 3) {
-						g.setColor(Color.red);
 					}
 					g.fillRect(
 							(int) Math.round(x*cellWidth),
