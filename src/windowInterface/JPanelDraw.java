@@ -17,7 +17,6 @@ public class JPanelDraw extends JPanel {
 	private Simulator mySimu;
 	private MyInterface interfaceGlobal;
 	ArrayList<ArrayList<Integer>> colorArrayList;
-	ArrayList<ArrayList<Integer>> colorArrayList;
 
 	public JPanelDraw(MyInterface itf) {
 		super();

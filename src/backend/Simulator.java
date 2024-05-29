@@ -31,7 +31,7 @@ public class Simulator extends Thread {
 	private boolean stopFlag;
 	private boolean pauseFlag;
 	private boolean loopingBorder;
-	private boolean clickActionFlag;
+	private int clickActionFlag;
 	private int loopDelay = 150;
 	
 	//TODO : add missing attribute(s)
@@ -40,7 +40,9 @@ public class Simulator extends Thread {
 	private int height;
 	private boolean enableLogs;
 	private Table table;
-	private boolean cellDensityToggle;
+	private int lowestCellValue = 0;
+	private int highestCellValue = 0;
+	private int ruleArrayListLength = 0;
 
 	//Rules Arraylists
 	private ArrayList<Rule> ruleArrayList = new ArrayList<Rule>();
@@ -52,7 +54,7 @@ public class Simulator extends Thread {
 		stopFlag=false;
 		pauseFlag=false;
 		loopingBorder=false;
-		clickActionFlag=false;
+		clickActionFlag=1; //1 for cell, 2 for sheep, 3 for wolf
 
 		agents = new ArrayList<Agent>();
 		fieldBirthValues = new ArrayList<Integer>();
@@ -64,12 +66,11 @@ public class Simulator extends Thread {
 		this.height=LINE_NUM;
 		enableLogs = true; // for debugging purposes
 		table = new Table(height, width, this);
-		cellDensityToggle=true;
 
 		
 		
 		//Default rule : Survive always, birth never
-		loadRule("ressources\\Rule\\conwayRule.json");
+		loadRule("ressources/Rule/conwayRule.json");
 		
 	}
 
@@ -184,32 +185,42 @@ public class Simulator extends Thread {
 	 * method called when clicking on a cell in the interface
 	 */
 	public void clickCell(int x, int y) {
-		if (clickActionFlag) {
-			int currentCellValue = getCell(x, y);
-			int newCellValue = 0;
-			if(cellDensityToggle) {
-				if (currentCellValue <6) {
-					newCellValue = currentCellValue +1;
-				} else {
-					newCellValue=-1;
-				}
-			} else {
-				if (currentCellValue == 0) {
-					newCellValue = 1;
-				} else {
-					newCellValue = 0;
+		//ruleArrayList
+		if (ruleArrayListLength == 0 && highestCellValue == 0){
+
+			int ruleArrayListLength = ruleArrayList.size();
+
+			for (int i = 0; i < ruleArrayListLength; i++) {
+				if (ruleArrayList.get(i).getValue() > highestCellValue) {
+					highestCellValue = ruleArrayList.get(i).getValue();
 				}
 			}
+			int lowestCellValue = 0;
+
+			for (int i = 0; i < ruleArrayListLength; i++) {
+				if (ruleArrayList.get(i).getValue() < lowestCellValue) {
+					lowestCellValue = ruleArrayList.get(i).getValue();
+				}
+			}
+
+			System.out.println("ruleArrayListLength: " + ruleArrayListLength);
+			System.out.println("highestCellValue: " + highestCellValue);
+			System.out.println("lowestCellValue: " + lowestCellValue);
+		}
 		
-			if (enableLogs) {
-				System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+		int currentCellValue = getCell(x, y);
+		//TODO : find highest value in ruleArrayList
+		int newCellValue = 0;
+		if(clickActionFlag == 1) { //cell
+			if (currentCellValue != highestCellValue) {
+				newCellValue = currentCellValue +1;
+			} 
+			else {
+				newCellValue = lowestCellValue;
 			}
-			
 			this.setCell(x, y, newCellValue);
-			
-			
-		} 
-		else {
+		}
+		else if(clickActionFlag == 2) { //sheep
 			int i=0;
 			Agent agent = new Sheep(x,y);
 			
@@ -246,10 +257,16 @@ public class Simulator extends Thread {
 					System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
 				}
 			}
-			
 		}
-	}
-	
+		else if(clickActionFlag == 3) { //wolf
+				//Make agent sheep/wolf
+				return;
+			}
+			if (enableLogs) {
+				System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+			}
+		}
+
 	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
 	public void setSheep(int x,int y){
 
@@ -421,13 +438,13 @@ public class Simulator extends Thread {
 	
 	public void toggleClickAction() {
 		//TODO-COMPLETE : complete method
-		clickActionFlag = !clickActionFlag;
+		if (clickActionFlag != 3) {
+			clickActionFlag++;
+		} else {
+			clickActionFlag = 1;
+		}
 		if (enableLogs) {
-			if (clickActionFlag) {
-				System.out.println("toggleClickAction called, set clickActionFlag to true");
-			} else {
-				System.out.println("toggleClickAction called, set clickActionFlag to false");
-			}
+			System.out.println("toggleClickAction called, set clickActionFlag to : " + clickActionFlag);
 		}
 	}
 
@@ -470,6 +487,9 @@ public class Simulator extends Thread {
 		}
 		//DEBUG
 		//printRules(ruleArrayList);
+		lowestCellValue = 0;
+		highestCellValue = 0;
+		ruleArrayListLength = 0;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -576,22 +596,19 @@ public class Simulator extends Thread {
 	 * @return String representation of click action
 	 */
 	public String clickActionName() {
-		// TODO-COMPLETE : initially return "sheep" or "cell"
-		// depending on clickActionFlag
-		if (clickActionFlag){
+		if (clickActionFlag == 1){
 			return "cell";
 		}
-		else {
+		else if (clickActionFlag == 2){
 			return "sheep";
 		}
+		else if (clickActionFlag == 3){
+			return "wolf";
+		}
+		else {
+			return "error";
+		}
 	}
-
-
-
-
-
-
-
 
 	//debug print the list of rules
 	public void printRules(ArrayList<Rule> ruleArrayList) {
