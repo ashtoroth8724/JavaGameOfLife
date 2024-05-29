@@ -72,7 +72,7 @@ public class Simulator extends Thread {
 		
 		
 		//Default rule : Survive always, birth never
-		loadRule("OOP_F1_Project\\conwayRule.json");
+		loadRule("ressources\\Rule\\conwayRule.json");
 		
 	}
 
