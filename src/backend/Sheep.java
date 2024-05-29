@@ -37,25 +37,20 @@ public class Sheep extends Agent {
 		} else {
 			hunger++;
 		}
-		this.moveRandom();
+		this.moveRandom(world);
 		return hunger<10; //condition to be alive
 	}
 
-	private void moveRandom() {
-		int direction = rand.nextInt(4);
-		if(direction == 0) {
-			x+=1;
-		}
-		if(direction == 1) {
-			y+=1;
-		}
-		if(direction == 2) {
-			x-=1;
-		}
-		if(direction == 3) {
-			y-=1;
+	private void moveRandom(Simulator world) {
+		//check is looping border is activated
+		if(world.isLoopingBorder()) {
+			//if looping border is activated we can move in any direction
+			x = (x+rand.nextInt(3)-1+world.getWidth())%world.getWidth();
+			y = (y+rand.nextInt(3)-1+world.getHeight())%world.getHeight();
+		} else {
+			//if looping border is not activated we can only move in the world
+			x = Math.max(0, Math.min(world.getWidth()-1, x+rand.nextInt(3)-1));
+			y = Math.max(0, Math.min(world.getHeight()-1, y+rand.nextInt(3)-1));
 		}
 	}
-
-
 }
