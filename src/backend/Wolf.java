@@ -23,94 +23,39 @@ public class Wolf extends Agent {
         int i=0;
         //Agent in detectionrange
         if (isInArea(x, y,detectionRange)){
-           
+           boolean sheepFound = false;
             //iterations for the length of the arraylist
             for(i=0;i<=world.getArrayAgent().size()-1;i++){
-                
+                Agent agentIter = world.getArrayAgent().get(i);
                 //if we proceed to find the agent, we check if it is an instance of sheep
-                if (world.getArrayAgent().get(i) instanceof Sheep ){
-                    System.out.println("sheep detected");
-                    Agent wolf = new Wolf(x,y);
-                    //if the instance of sheep is detected to be inside the detection range it will 
-                    if (world.getArrayAgent().get(i).getX()-wolf.getX()<=detectionRange || world.getArrayAgent().get(i).getY()-wolf.getY()<=detectionRange){
-                        System.out.println("sheep in range");
-                        int xSpotted = world.getArrayAgent().get(i).getX()-wolf.getX();
-                        int ySpotted = world.getArrayAgent().get(i).getY()-wolf.getY(); 
-                        // here the values calculated can be over or under 0
-                        //thus we need to further determine its meaning, a negative xSpotted means that the value of x for the wolf is 
-                        //greater than the sheep thus it means that the wolf will have to go in the negative x direction (to the left) in order to reach 
-                        //the sheep
-                        //We also need to determine the different cases possible by splitting the movements in 8 directions 
-                        //such as the four mains directions and the 4 resulting diagonals 
-                        //ySpotted<0 means go to -y direction
-                        //xSpotted<0 means to go in the -x direction
-                        //if the distance in x is smaller than the distance in y then the wolf will start by reducing the distance in y 
-                        //and according to the sign of ySpotted
-
-                        //taking care of the displacement on y if there is a dy
-                        if (xSpotted < ySpotted && ySpotted<0){
-                            y-=1;
-                        } 
-                        if (xSpotted < ySpotted && ySpotted>0){
-                            y+=1;
+                if(agentIter instanceof Sheep){
+                    //if the agent is a sheep, we check if it is in the detection range
+                    if(isInArea(agentIter.getX(),agentIter.getY(),detectionRange)){
+                        sheepFound = true;
+                        //if the sheep is in the detection range, the wolf moves towards the sheep
+                        moveTowardsSheep((Sheep)agentIter);
+                        //if the wolf is on the same cell as the sheep, the sheep is eaten
+                        if(x==agentIter.getX() && y==agentIter.getY()){
+                            //eat the sheep
+                            world.getArrayAgent().remove(agentIter);
+                            hunger=0;
+                            break;
                         }
-                        //displacement on x if there is no dy
-                        if (xSpotted < ySpotted && ySpotted==0){
-                            x-=1;
-                        } 
-                        if (xSpotted > ySpotted && ySpotted==0){
-                            x+=1;
+                        else{
+                            hunger++;
+                            break;
                         }
-                        //displacement in x when there is a dx
-                        if (xSpotted>ySpotted && xSpotted<0){
-                            x-=1;
-                        }
-                        if (xSpotted>ySpotted && xSpotted>0){
-                            x+=1;
-                        }
-                        if (xSpotted < ySpotted && xSpotted==0){
-                            y-=1;
-                        } 
-                        if (xSpotted > ySpotted && xSpotted==0){
-                            y+=1;
-                        }
-
-                        if (xSpotted==ySpotted && xSpotted>0){
-                            x+=1;
-                            y+=1;
-                        }
-                        if (xSpotted==ySpotted && xSpotted<0){
-                            x-=1;
-                            y-=1;
-                        }
-                        if (xSpotted == -ySpotted && xSpotted>0){
-                            x+=1;
-                            y-=1;
-                        }
-                        if (xSpotted == -ySpotted && xSpotted<0){
-                            x-=1;
-                            y+=1;
-                        }
-                        if(world.getArrayAgent().get(i).getX() == wolf.getX() && world.getArrayAgent().get(i).getY() == wolf.getY()){
-                            world.getArrayAgent().remove(i);
-                            hunger = 0;
-                            System.out.println("sheep killed");
-                        }
-                        
                     }
-                
                 }
-                else{
-                    hunger++;
-                }
-            }
 	
+            } if (sheepFound==false){
+                this.moveRandom();
+                hunger++;
+            }
         }
         else{
             this.moveRandom();
-            hunger++;
-            System.out.println("nothing detected");
-            
+            hunger++;            
         }
         return hunger<8;
     }
@@ -130,6 +75,18 @@ public class Wolf extends Agent {
 			y-=1;
 		}
 	}
-   
+
+
+    public void moveTowardsSheep(Sheep sheep) {
+        int deltaX = sheep.getX() - this.x;
+        int deltaY = sheep.getY() - this.y;
+       
+        // Normalize deltas to get direction
+        if (deltaX > 0) this.x += 1;
+        else if (deltaX < 0) this.x -= 1;
+    
+        if (deltaY > 0) this.y += 1;
+        else if (deltaY < 0) this.y -= 1;
+    }
     
 }
