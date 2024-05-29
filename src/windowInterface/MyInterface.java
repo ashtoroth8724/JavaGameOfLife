@@ -66,6 +66,14 @@ public class MyInterface extends JFrame {
 		panelRight.setLayout(new GridLayout(12,1));
 		contentPane.add(panelRight, BorderLayout.EAST);
 
+		JButton btnStop = new JButton("Stop/Reset");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				stopSimu();
+			}
+		});
+		panelTop.add(btnStop);
+
 		JButton btnGo = new JButton("Start/Pause");
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -133,14 +141,6 @@ public class MyInterface extends JFrame {
 			}
 		});
 		panelRight.add(btnLoadRule);
-
-		JButton btnSaveRule = new JButton("Save Rule");
-		btnSaveRule.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				clicSaveRuleToFileButton();
-			}
-		});
-		panelRight.add(btnSaveRule);
 		
 		JButton btnLoadAgents = new JButton("Load Agents");
 		btnLoadAgents.addActionListener(new ActionListener() {
@@ -204,6 +204,11 @@ public class MyInterface extends JFrame {
 		clickLabel = new JLabel("click : X");
 		panelRight.add(clickLabel);
 		clickLabel.setText("click : " + mySimu.clickActionName());
+	}
+	public void stopSimu() {
+		mySimu = new Simulator(this);
+		panelDraw.setSimu(mySimu);
+		panelDraw.repaint();
 	}
 
 	public void setStepBanner(String s) {
@@ -346,14 +351,6 @@ public class MyInterface extends JFrame {
 		String fileName=SelectFile();
 		if (fileName.length()>0) {
 			ArrayList<String> content = mySimu.getSaveState();
-			writeFile(fileName, (String[]) content.toArray());
-		}
-	}
-
-	public void clicSaveRuleToFileButton() {
-		String fileName=SelectFile();
-		if (fileName.length()>0) {
-			ArrayList<String> content = mySimu.getRule();
 			writeFile(fileName, (String[]) content.toArray());
 		}
 	}
