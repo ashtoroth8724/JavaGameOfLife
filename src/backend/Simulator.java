@@ -262,14 +262,45 @@ public class Simulator extends Thread {
 				}
 			}
 		}
-		else if(clickActionFlag == 3) { //wolf
-				//Make agent sheep/wolf
-				return;
+		else if(clickActionFlag == 3) { //Wolf
+			int i=0;
+			Agent wolf = new Wolf(x,y);
+			
+			//if there are no agents, skip directly to adding one
+			boolean removal =false;
+			if (agents.size()>0 ){
+				
+				//if an agent is in this area we iterate in the arraylist agents in order to find which one it is 
+				
+				for(i=0;i<=agents.size()-1;i++){
+					
+					//if we proceed to find the agent on the coordinates of the click, we remove it
+					
+					if (agents.get(i).getX() == x && agents.get(i).getY() == y ){
+						agents.remove(i);
+						System.out.println("Corresponding agent found, proceeding with removal");
+						removal = true;
+						
+					}
+				}
+				if(i==agents.size() && removal ==false){
+					//if we find no corresponding agent after the for loop, we add one
+					System.out.println("no agents to remove, proceeding with creation");
+					setWolf(x, y);
+					if (enableLogs) {
+						System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+					}
+				}	
+				
 			}
-			if (enableLogs) {
-				System.out.println("clickCell Called, cell :" + x + "," + y + " is now" + newCellValue + "");
+			else{		
+				setWolf(x,y);
+				if (enableLogs) {
+					System.out.println("clickAgent Called, Agent created at: " + x + "," + y + "");
+				}
 			}
 		}
+	}
 
 	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
 	public void setSheep(int x,int y){
@@ -277,6 +308,12 @@ public class Simulator extends Thread {
 		Sheep sheep =  new Sheep(x,y);
 		
 		agents.add(sheep);
+	}
+	public void setWolf(int x,int y){
+
+		Wolf wolf =  new Wolf(x,y);
+		
+		agents.add(wolf);
 	}
 
 
