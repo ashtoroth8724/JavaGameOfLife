@@ -85,6 +85,7 @@ All 4 corners cells are nearby cells of each others.
 
 1. Basic John Conway's Rule
 The basic rule set described above
+
 world advised: conwaySingleShotCannon.csv backRake.csv glider.csv gliderTrain.csv gosperGlidergun.csv r_pento.csv
 
 2. Blob Rule
@@ -98,7 +99,8 @@ game of life with more birthing values
 
 5. Gas Rule
 Uses a Highest neighbour instead of a count near. gas excite (explode) when one of his neighbour is excited, and takes 5 turns to return to an excitable state.
-Inspired by this video from Steve Mould [Bizarre travelling flame discovery](https://youtu.be/SqhXQUzVMlQ?t=418)
+Inspired by this video from Steve Mould "[Bizarre travelling flame discovery](https://youtu.be/SqhXQUzVMlQ?t=418)"
+
 world advised: randomFive.csv interestingGas.csv densityStyle.csv
 
 
