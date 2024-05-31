@@ -649,13 +649,17 @@ public class Simulator extends Thread {
 		//iterate through the agents arraylist
 		for(Agent agent : agents){
 			if(agent instanceof Sheep) {
-				listSheep = listSheep + agent.getX() + "," + agent.getY() + ";";
+				if (listSheep != "") listSheep = listSheep + ";";
+				listSheep = listSheep + agent.getX() + "," + agent.getY();
 			}else if (agent instanceof Wolf) {
-				listWolf = listWolf + agent.getX() + "," + agent.getY() + ";";
+				if (listWolf != "") listWolf = listWolf + ";";
+				listWolf = listWolf + agent.getX() + "," + agent.getY();
 			}
 		}
 		agentSave.add(listSheep);
+		System.out.println("listSheep: " + listSheep);
 		agentSave.add(listWolf);
+		System.out.println("listWolf: " + listWolf);
 		return agentSave;
 	}
 

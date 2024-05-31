@@ -363,7 +363,7 @@ public class MyInterface extends JFrame {
 		String fileName=SelectFile();
 		if (fileName.length()>0) {
 			ArrayList<String> content = mySimu.getAgentsSave();
-			writeFile(fileName, (String[]) content.toArray());
+			writeFile(fileName, content.toArray(new String[0]));
 		}
 	}
 	
