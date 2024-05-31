@@ -2,7 +2,7 @@
 # Game Of Life
 The Game of Life (an example of a cellular automaton) is played on an infinite two-dimensional rectangular grid of cells. Each cell can be either alive or dead. The status of each cell changes each turn of the game (also called a generation) depending on the statuses of that cell's 8 neighbors. Neighbors of a cell are cells that touch that cell, either horizontal, vertical, or diagonal from that cell.
 
-### Reminder of basic game of life rules
+### Reminder of basic game of life rules by 
 1. Any living cell with strictly fewer than two living neighbors dies (referred to
 as underpopulation or exposure).
 
@@ -78,6 +78,30 @@ The sides of the gride will count as dead.
 2. Loop
 The gride technicaly has no sides. The left handside is connected to the right one, the top to the bottom.
 All 4 corners cells are nearby cells of each others.
+
+- 
+
+### Rule Sets
+
+1. Basic John Conway's Rule
+The basic rule set described above
+world advised: conwaySingleShotCannon.csv backRake.csv glider.csv gliderTrain.csv gosperGlidergun.csv r_pento.csv
+
+2. Blob Rule
+A modification of john conway's game of life with much more birth and survive value, very good to play around with sheeps if you want them to starve a bit but not too much
+
+3. Grass for sheeps Rule
+give many grass for sheeps to eat from, very good to play with hunting wolves
+
+4. Hash Life Rule
+game of life with more birthing values
+
+5. Gas Rule
+Uses a Highest neighbour instead of a count near. gas excite (explode) when one of his neighbour is excited, and takes 5 turns to return to an excitable state.
+Inspired by this video from Steve Mould [Bizarre travelling flame discovery](https://youtu.be/SqhXQUzVMlQ?t=418)
+world advised: randomFive.csv interestingGas.csv densityStyle.csv
+
+
 ## Color Reference
 
 | Color             | HEX                                                                |   RGB |
