@@ -37,7 +37,7 @@ public class Sheep extends Agent {
 		} else {
 			hunger++;
 		}
-		this.moveRandom();
+		this.moveRandom(world);
 		return hunger<10; //condition to be alive
 		//if the sheep can reproduce it creates a new sheep in agents
 		//if(canReproduce(neighbors, world)) {

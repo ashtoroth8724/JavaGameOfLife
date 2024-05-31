@@ -18,8 +18,8 @@ public class Simulator extends Thread {
 
 	private MyInterface mjf;
 	
-	private final int COL_NUM = 10;
-	private final int LINE_NUM = 10;
+	private final int COL_NUM = 100;
+	private final int LINE_NUM = 100;
 	private final int LIFE_TYPE_NUM = 4;
 	//Conway Radius : 1
 	private final int LIFE_AREA_RADIUS = 1;
@@ -71,7 +71,7 @@ public class Simulator extends Thread {
 		
 		//Default rule : Survive always, birth never
 		//loadRule("ressources/Rule/conwayRule.json");
-		loadRule("OOP_F1_Project/ressources/Rule/conwayRule.json");
+		loadRule("ressources/Rule/conwayRule.json");
 		
 	}
 
@@ -526,7 +526,7 @@ public class Simulator extends Thread {
 	@SuppressWarnings("unchecked")
 	public void loadRule(String fileName) {
 		System.out.println(fileName);
-		//TODO-INPROGRESS load json
+		//TODO-COMPLETE load json
 		JSONParser jsonParser = new JSONParser();
 		try (FileReader reader = new FileReader(fileName))
 		{
@@ -643,13 +643,42 @@ public class Simulator extends Thread {
 	
 	
 	public ArrayList<String> getAgentsSave() {
-		//TODO : Same idea as the other save method, but for agents
-		return null;
+		ArrayList<String> agentSave = new ArrayList<String>();
+		String listSheep = "";
+		String listWolf = "";
+		//iterate through the agents arraylist
+		for(Agent agent : agents){
+			if(agent instanceof Sheep) {
+				listSheep = listSheep + agent.getX() + "," + agent.getY() + ";";
+			}else if (agent instanceof Wolf) {
+				listWolf = listWolf + agent.getX() + "," + agent.getY() + ";";
+			}
+		}
+		agentSave.add(listSheep);
+		agentSave.add(listWolf);
+		return agentSave;
 	}
 
 	public void loadAgents(ArrayList<String> stringArray) {
 		//TODO : Same idea as other load methods, but for agent list
-		
+		// Load sheep agents
+		String sheepLine = stringArray.get(0);
+		String[] sheepCoordinates = sheepLine.split(";");
+		for (String coordinate : sheepCoordinates) {
+			String[] xy = coordinate.split(",");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			setSheep(x, y);
+		}
+		// Load wolf agents
+		String wolfLine = stringArray.get(1);
+		String[] wolfCoordinates = wolfLine.split(";");
+		for (String coordinate : wolfCoordinates) {
+			String[] xy = coordinate.split(",");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			setWolf(x, y);
+		}
 	}
 
 	/**
