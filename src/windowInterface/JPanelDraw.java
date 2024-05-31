@@ -84,8 +84,8 @@ public class JPanelDraw extends JPanel {
 				g.setColor(animal.getDisplayColor());
 				g.fillOval((int)Math.round(animal.getX()*cellWidth), 
 						(int)Math.round(animal.getY()*cellHeight), 
-						(int)Math.round(cellWidth/2), 
-						(int)Math.round(cellHeight/2));
+						(int)Math.round(cellWidth*3/4), 
+						(int)Math.round(cellHeight*3/4));
 			}
 		}
 	}

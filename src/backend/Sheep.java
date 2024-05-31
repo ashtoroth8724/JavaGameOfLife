@@ -39,10 +39,6 @@ public class Sheep extends Agent {
 		}
 		this.moveRandom(world);
 		return hunger<10; //condition to be alive
-		//if the sheep can reproduce it creates a new sheep in agents
-		//if(canReproduce(neighbors, world)) {
-			//world.setSheep(x, y);
-		//}
 	}
 
 	private void moveRandom(Simulator world) {
@@ -58,12 +54,5 @@ public class Sheep extends Agent {
 		}
 	}
 	//sheep reproduce if two are on the same cell
-	public boolean canReproduce(ArrayList<Agent> neighbors, Simulator world) {
-		for(Agent a : neighbors) {
-			if(a instanceof Sheep && a.getX()==x && a.getY()==y) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 }

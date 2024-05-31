@@ -51,13 +51,12 @@ public class Table {
         //return the Cell object of coordinates x, y
         return table.get(row).get(column);
     }
-    //TODO-complete : set(Cell, x, y) set an object Cell to coordinate x, y
+    //TODO-COMPLETE : set(Cell, x, y) set an object Cell to coordinate x, y
     public void setCell(int row, int column, Cell cell){
         this.table.get(row).set(column, cell);
     }
 
-    //TODO-INPROGRESS : count near (xy) -> return how many cells around this cell
-    // NEED A STRONG OPTIMISATION
+    //TODO-COMPLETE : count near (xy) -> return how many cells around this cell
     public int countNear(int row, int column){
         int count = 0;
         boolean loopingBorder = isLoopingBorder();
@@ -73,6 +72,7 @@ public class Table {
             int y = column + neighbor[1];
     
             if (loopingBorder) {
+                // Wrap around the border
                 x = (x + width) % width;
                 y = (y + height) % height;
             } 
@@ -105,11 +105,12 @@ public class Table {
             int y = column + neighbor[1];
     
             if (loopingBorder) {
+                // Wrap around the border
                 x = (x + width) % width;
                 y = (y + height) % height;
             } else {
                 if (x < 0 || x >= width || y < 0 || y >= height) {
-                    // Border cell is outside the grid
+                    // Border cell is outside the grid, do not consider it as highest cell near
                     continue;
                 }
             }
@@ -140,6 +141,8 @@ public class Table {
         System.out.println("Created a random field");
     }
 
+
+    //DEBUG Print the table
     public void serialPrint(){
         for (int i = 0; i < height; i++) {
             System.out.print("\n");

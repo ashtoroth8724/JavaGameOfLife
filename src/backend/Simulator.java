@@ -34,7 +34,7 @@ public class Simulator extends Thread {
 	private int clickActionFlag;
 	private int loopDelay = 150;
 	
-	//TODO : add missing attribute(s)
+	//TODO-COMPLETE : add missing attribute(s)
 	private double randomDansitySlider = 0.5;
 	private int width;
 	private int height;
@@ -141,7 +141,7 @@ public class Simulator extends Thread {
 			}
 		}
 		//then evolution of the field
-		//TODO-INPROGRESS : apply game rule to all cells of the field
+		//TODO-COMPLETE : apply game rule to all cells of the field
 		this.applyRule();
 
 
@@ -191,6 +191,7 @@ public class Simulator extends Thread {
 	 */
 	public void clickCell(int x, int y) {
 		//ruleArrayList
+		//find the max and min values according to rule to cycle through it
 		if (ruleArrayListLength == 0 && highestCellValue == 0){
 
 			int ruleArrayListLength = ruleArrayList.size();
@@ -214,9 +215,9 @@ public class Simulator extends Thread {
 		}
 		
 		int currentCellValue = getCell(x, y);
-		//TODO : find highest value in ruleArrayList
+		//TODO-COMPLETE : find highest value in ruleArrayList
 		int newCellValue = 0;
-		if(clickActionFlag == 1) { //cell
+		if(clickActionFlag == 1) { //cell, cycke through the states of cells according to the rules
 			if (currentCellValue != highestCellValue) {
 				newCellValue = currentCellValue +1;
 			} 
@@ -303,7 +304,7 @@ public class Simulator extends Thread {
 		}
 	}
 
-	//TODO-INPROGRESS : set agent (x y agent) load an agent to coordinates x,y
+	//TODO-COMPLETE : set agent (x y agent) load an agent to coordinates x,y
 	public void setSheep(int x,int y){
 
 		Sheep sheep =  new Sheep(x,y);
@@ -317,22 +318,6 @@ public class Simulator extends Thread {
 		agents.add(wolf);
 	}
 
-
-
-	public void printAgents() {
-        for (Agent Agent : agents) {
-            String agentType = Agent.getClass().getSimpleName();
-            int x = Agent.getX();
-            int y = Agent.getY();
-            Color color = Agent.getDisplayColor();
-            
-            System.out.println("Agent Type: " + agentType);
-            System.out.println("Position: (" + x + ", " + y + ")");
-            System.out.println("Color: " + color);
-            System.out.println();
-        }
-		
-	}
 	/**
 	 * get cell value in simulated world
 	 * @param x coordinate of cell
@@ -340,7 +325,7 @@ public class Simulator extends Thread {
 	 * @return value of cell
 	 */
 	public int getCell(int x, int y) {
-		//TODO-INPROGRESS :
+		//TODO-COMPLETE :
 		//complete method with proper return
 		return this.table.getCell(x,y).getValue();
 	}
@@ -376,7 +361,7 @@ public class Simulator extends Thread {
 	 * @param val to set in cell
 	 */
 	public void setCell(int x, int y, int val) {
-		//TODO : complete method
+		//TODO-COMPLETE : complete method
 		this.table.getCell(x, y).setValue(val);
 	}
 	
@@ -517,11 +502,7 @@ public class Simulator extends Thread {
 	 * @return File content as an ArrayList of Lines (String)
 	 * @see loadRule for inverse process
 	 */
-	public ArrayList<String> getRule() {
-		//TODO : complete method with proper return
-		
-		return null;
-	}
+
 
 	@SuppressWarnings("unchecked")
 	public void loadRule(String fileName) {
@@ -533,6 +514,7 @@ public class Simulator extends Thread {
 			//Read JSON file
 			Object obj = jsonParser.parse(reader);
 
+			//load all the list of cells states
 			JSONArray cellList = (JSONArray) obj;
 			ruleArrayList.clear();
 			colorArrayList.clear();
@@ -632,12 +614,12 @@ public class Simulator extends Thread {
                 }
             }
 
-            // DEBUG:
+            // DEBUG Print:
             //System.out.println("Applying rule to cell: " + x + ", " + y +" | countNear = " + valueCountNear +" | highestNear = " + valueHighestNear +" | current cell value = " + currentValue +" | new cell value = " + tempTable.getCell(x, y).getValue());
         }
     }
     this.table = tempTable;
-    //DEBUG
+    //DEBUG Print the table
 	//table.serialPrint();
 	}
 	
@@ -664,11 +646,13 @@ public class Simulator extends Thread {
 	}
 
 	public void loadAgents(ArrayList<String> stringArray) {
-		//TODO : Same idea as other load methods, but for agent list
+		//TODO-COMPLETE : Same idea as other load methods, but for agent list
 		// Load sheep agents
 		String sheepLine = stringArray.get(0);
+		//split each agent by ;
 		String[] sheepCoordinates = sheepLine.split(";");
 		for (String coordinate : sheepCoordinates) {
+			//split each coordinate by ,
 			String[] xy = coordinate.split(",");
 			int x = Integer.parseInt(xy[0]);
 			int y = Integer.parseInt(xy[1]);
@@ -676,8 +660,10 @@ public class Simulator extends Thread {
 		}
 		// Load wolf agents
 		String wolfLine = stringArray.get(1);
+		//split each agent by ;
 		String[] wolfCoordinates = wolfLine.split(";");
 		for (String coordinate : wolfCoordinates) {
+			//split each coordinate by ,
 			String[] xy = coordinate.split(",");
 			int x = Integer.parseInt(xy[0]);
 			int y = Integer.parseInt(xy[1]);
@@ -718,6 +704,21 @@ public class Simulator extends Thread {
             System.out.println("Else Value: " + rule.getElseValue());
             System.out.println("-----------------------------------");
         }
+	}
+	//debug print the list of agents
+	public void printAgents() {
+        for (Agent Agent : agents) {
+            String agentType = Agent.getClass().getSimpleName();
+            int x = Agent.getX();
+            int y = Agent.getY();
+            Color color = Agent.getDisplayColor();
+            
+            System.out.println("Agent Type: " + agentType);
+            System.out.println("Position: (" + x + ", " + y + ")");
+            System.out.println("Color: " + color);
+            System.out.println();
+        }
+		
 	}
 
 }
